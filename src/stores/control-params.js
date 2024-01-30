@@ -15,5 +15,23 @@ export const useControlParams = defineStore('counter', {
   },
 
   actions: {
+  },
+  // 开启数据缓存
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'control-params',
+        storage: localStorage,
+        paths: [
+          'ip',
+          'linearRatio',
+          'refreshInterval',
+          'angularRatio',
+          'keyboardMove',
+          'moveMode'
+        ]
+      }
+    ]
   }
 })

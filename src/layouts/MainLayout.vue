@@ -21,7 +21,6 @@
 
     <q-drawer
       v-model="leftDrawerOpen"
-      show-if-above
       bordered
     >
       <q-list>
@@ -57,8 +56,14 @@
       </q-list>
     </q-drawer>
 
-    <q-page-container>
-      <router-view />
+    <q-page-container @click="leftDrawerOpen=false">
+      <router-view v-slot="{ Component }" style="height: calc(100vh - 50px)">
+        <transition name="main-page-transition"
+                    enter-active-class="animated fadeIn"
+                    leave-active-class="animated fadeOut" mode="out-in">
+          <component :is="Component"/>
+        </transition>
+      </router-view>
     </q-page-container>
   </q-layout>
 </template>

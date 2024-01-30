@@ -4,7 +4,8 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: 'amr', name: 'AMR Control', component: () => import('pages/AmrControl.vue') }
+      { path: 'amr', name: 'AMR Control', component: () => import('pages/AmrControl.vue') },
+      { path: 'setting', name: 'Setting', component: () => import('pages/SettingPage.vue') }
     ]
   },
 
