@@ -12,7 +12,7 @@
         />
 
         <q-toolbar-title>
-          Quasar App
+          <label v-if="$route.name !== 'main'">{{ $route.name }}</label>
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -25,16 +25,34 @@
       bordered
     >
       <q-list>
-        <q-item-label
-          header
-        >
-          Essential Links
-        </q-item-label>
+        <q-item v-ripple>
+          <q-item-section>
+            <q-item-label header class="text-grey-8 text-h6" style="width: 5rem">
+              Menu
+            </q-item-label>
+          </q-item-section>
+          <q-item-section side>
+            <div class="row items-center content-center">
+              <q-btn
+                flat round
+                color="grey"
+                @click="$q.fullscreen.toggle()"
+                :icon="$q.fullscreen.isActive ? 'fullscreen_exit' : 'fullscreen'"
+              />
+              <q-btn flat round color="grey" icon="settings" @click="router.push('Setting'); leftDrawerOpen = false"/>
+              <q-btn flat round color="grey" icon="autorenew" @click="router.go(0)"/>
+            </div>
+          </q-item-section>
+        </q-item>
+        <q-separator/>
+        <template>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
+        </template>
+        <router-item
+          v-for="link in basic"
+          :key="link.link"
           v-bind="link"
+          @close-drawer="leftDrawerOpen = false"
         />
       </q-list>
     </q-drawer>
@@ -47,65 +65,24 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
+import { useRouter } from 'vue-router'
 
-const linksList = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev'
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework'
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev'
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev'
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev'
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev'
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev'
-  }
-]
+import RouterItem from 'layouts/RouterItem.vue'
+import Links from 'src/router/Links'
 
 export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    RouterItem
   },
 
   setup () {
     const leftDrawerOpen = ref(false)
 
     return {
-      essentialLinks: linksList,
+      router: useRouter(),
+      basic: Links('basic'),
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
