@@ -1,7 +1,7 @@
 <script setup>
 
 import { inject, onMounted, ref, watch } from 'vue'
-import * as PIXI from 'pixi.js'
+import RosMapPixi from 'components/amr-control/RosMapPixi'
 
 const rosClient = inject('rosClient')
 const connected = inject('connected')
@@ -9,46 +9,32 @@ const connected = inject('connected')
 watch(connected, value => {
   if (value) {
     rosClient.subscribe('/map')
+    rosClient.subscribe('/map_metadata')
+    rosClient.subscribe('/robot_pose')
   }
 })
 
-let pixiApp
+const mapManager = RosMapPixi()
 const pixiContainer = ref(null)
-
 const loadMapRaw = inject('loadMapRaw')
 
 onMounted(() => {
-  pixiApp = new PIXI.Application({
-    width: pixiContainer.value.offsetWidth,
-    height: pixiContainer.value.offsetHeight,
-    backgroundColor: '#1099bb',
-    view: pixiContainer.value
-  })
+  mapManager.init({ canvas: pixiContainer.value })
+  loadMapRaw.value = mapManager.processMapRaw
+})
 
-  loadMapRaw.value = function (data) {
-    const texture = PIXI.Texture.fromBuffer(
-      new Uint8Array(data.data.map(x => {
-        switch (x) {
-          case 100: return [0, 0, 0, 255]
-          case 0: return [255, 255, 255, 255]
-          default: return [127, 127, 127, 255]
-        }
-      }).flat()),
-      data.info.width,
-      data.info.height
-    )
-
-    const sprite = new PIXI.Sprite(texture)
-    pixiApp.stage.addChild(sprite)
-  }
+const robotPose = inject('robotPose')
+watch(robotPose, value => {
+  mapManager.updateRobotPose(value.pose)
 })
 
 </script>
 
 <template>
   <canvas ref="pixiContainer" class="full-width full-height"/>
+  <q-page-sticky position="top" :offset="[15, 15]">
+    <div class="row q-gutter-sm">
+      <q-btn round @click="mapManager.focus" color="primary" icon="navigation"/>
+    </div>
+  </q-page-sticky>
 </template>
-
-<style scoped>
-
-</style>

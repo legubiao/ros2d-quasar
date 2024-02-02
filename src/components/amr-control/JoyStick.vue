@@ -1,4 +1,5 @@
 <script setup>
+import { getCssVar } from 'quasar'
 import { inject, onMounted, onUnmounted, ref } from 'vue'
 import { useControlParams } from 'stores/control-params'
 import nipplejs from 'nipplejs'
@@ -22,7 +23,7 @@ function initJoyStick () {
     mode: 'static', // mode: 'semi','dynamic'
     position: { left: '100px', bottom: '100px' },
     lockY: true,
-    color: 'blue',
+    color: getCssVar('negative'),
     size: 80
   }).on('start end', function () {
     linear.value = 0
@@ -35,7 +36,7 @@ function initJoyStick () {
     mode: 'static', // mode: 'semi','dynamic'
     position: { right: '100px', bottom: '100px' },
     lockX: true,
-    color: 'green',
+    color: getCssVar('negative'),
     size: 80
   }).on('end', function () {
     angular.value = 0
@@ -136,9 +137,9 @@ onUnmounted(() => {
   <q-page-sticky v-show="$q.screen.gt.xs" position="bottom-right" :offset="[15, 15]">
     <q-btn-dropdown color="primary" label="Joystick Params" :menu-offset="[50,8]">
       <q-card-section>
-        <slider-item label="Linear Speed" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.2"
-                     :max="5"
-                     :step="0.2"/>
+        <slider-item label="Linear Speed" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
+                     :max="1"
+                     :step="0.05"/>
         <slider-item label="Rotation Speed" input-label="angular" color="secondary" v-model="controlParams.angularRatio"
                      :min="0.1" :max="2"
                      :step="0.1"/>

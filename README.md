@@ -1,6 +1,6 @@
 # Quasar App (ros2d-quasar)
 
-A Quasar Project
+A Quasar Web APP for ROS-Noetic
 
 ## Install the dependencies
 ```bash
