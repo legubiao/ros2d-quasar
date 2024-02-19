@@ -64,13 +64,13 @@ function pubVel (x, z) {
     moving = true
     twist.value.linear.x = x
     twist.value.angular.z = z
-    publish('/cmd_vel', twist.value)
+    publish(controlParams.cmdTopic, twist.value)
   } else {
     if (moving) {
       moving = false
       twist.value.linear.x = x
       twist.value.angular.z = z
-      publish('/cmd_vel', twist.value)
+      publish(controlParams.cmdTopic, twist.value)
     }
   }
 }
