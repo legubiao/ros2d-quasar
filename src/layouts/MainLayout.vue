@@ -22,6 +22,7 @@
     <q-drawer
       v-model="leftDrawerOpen"
       bordered
+      :breakpoint="2000"
     >
       <q-list>
         <q-item v-ripple>

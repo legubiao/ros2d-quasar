@@ -1,5 +1,8 @@
 import * as PIXI from 'pixi.js'
 import { getCssVar } from 'quasar'
+import { useControlParams } from 'stores/control-params'
+
+const controlParam = useControlParams()
 
 export default function () {
   const mapRender = {
@@ -16,7 +19,7 @@ export default function () {
     robotImg.onload = function () {
       const robot = PIXI.Sprite.from(robotImg)
       robot.alpha = 1
-      robot.scale.set(1 / robotImg.width)
+      robot.scale.set(controlParam.arrowScale / robotImg.width)
       robot.anchor.set(0.5)
       robot.tint = getCssVar('primary')
       mapRender.robot = robot
@@ -57,11 +60,9 @@ export default function () {
    */
   mapRender.init = (option) => {
     mapRender.canvas = option.canvas
-    const width = option.canvas.offsetWidth, height = option.canvas.offsetHeight
 
     const app = new PIXI.Application({
-      width,
-      height,
+      resizeTo: option.canvas,
       backgroundColor: getCssVar('info'),
       view: option.canvas
     })

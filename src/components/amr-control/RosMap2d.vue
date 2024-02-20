@@ -31,10 +31,10 @@ watch(robotPose, value => {
 </script>
 
 <template>
-  <canvas ref="pixiContainer" class="full-width full-height"/>
   <q-page-sticky position="top" :offset="[15, 15]">
     <div class="row q-gutter-sm">
       <q-btn round @click="mapManager.focus" color="primary" icon="navigation"/>
     </div>
   </q-page-sticky>
+  <canvas ref="pixiContainer" class="full-width full-height"/>
 </template>

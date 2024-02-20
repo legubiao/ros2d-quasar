@@ -8,7 +8,8 @@ export const useControlParams = defineStore('counter', {
     keyboardMove: false,
     moveMode: '2wheeled',
     ip: 'localhost',
-    cmdTopic: '/cmd_vel'
+    cmdTopic: '/cmd_vel',
+    arrowScale: 1
   }),
 
   getters: {
@@ -31,7 +32,8 @@ export const useControlParams = defineStore('counter', {
           'angularRatio',
           'keyboardMove',
           'moveMode',
-          'cmdTopic'
+          'cmdTopic',
+          'arrowScale'
         ]
       }
     ]
