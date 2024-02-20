@@ -120,9 +120,11 @@ export default function () {
     const texture = PIXI.Texture.fromBuffer(
       new Uint8Array(data.data.map(x => {
         switch (x) {
-          case 100: return [0, 0, 0, 255]
-          case 0: return [255, 255, 255, 255]
-          default: return [0, 0, 0, 10]
+          case -1: return [0, 0, 0, 10]
+          default: {
+            const grayScale = (100 - x) / 100 * 255
+            return [grayScale, grayScale, grayScale, 255]
+          }
         }
       }).flat()),
       data.info.width,
