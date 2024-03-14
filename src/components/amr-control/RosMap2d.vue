@@ -47,7 +47,7 @@ function saveMap () {
     cancel: true,
     persistent: true
   }).onOk(data => {
-    mapCommand('save_map ' + data)
+    mapCommand('save ' + data)
   })
 }
 
@@ -72,7 +72,7 @@ function loadMap () {
   <q-page-sticky position="top" :offset="[15, 15]">
     <div class="row q-gutter-sm">
       <q-btn round @click="mapManager.focus" color="primary" icon="navigation"/>
-      <q-btn label="创建地图" color="secondary" @click="mapCommand('start_mapping')"/>
+      <q-btn label="创建地图" color="secondary" @click="mapCommand('start')"/>
       <q-btn label="保存地图" color="primary" icon="save" @click="saveMap"/>
       <q-btn label="加载地图" color="primary" icon="download" @click="loadMap"/>
     </div>
