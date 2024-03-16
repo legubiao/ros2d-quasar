@@ -78,10 +78,20 @@ export default function () {
 
     // 当鼠标按下时开始拖动
     app.view.addEventListener('pointerdown', (event) => {
-      mapRender.dragging = true
-      mapRender.lastPosition = {
-        x: event.x,
-        y: event.y
+      if (mapRender.changeLocation) {
+        const timeInterval = new Date().getTime()
+        if (mapRender.lastClick && timeInterval - mapRender.lastClick < 500) {
+          mapRender.changePose(mapRender.globalToRos(event.x, event.y))
+        }
+        mapRender.lastClick = timeInterval
+      } else if (mapRender.changeDirection) {
+        mapRender.changeTheta(mapRender.globalToRos(event.x, event.y))
+      } else {
+        mapRender.dragging = true
+        mapRender.lastPosition = {
+          x: event.x,
+          y: event.y
+        }
       }
     })
 
@@ -169,6 +179,17 @@ export default function () {
     mapRender.app.stage.removeChildren()
     mapRender.app.stage.addChild(mapRender.map)
     mapRender.app.stage.addChild(mapRender.robot || new PIXI.Sprite())
+  }
+
+  /**
+   * 全局坐标转ros坐标
+   * @param x 全局水平坐标
+   * @param y 全局垂直坐标
+   */
+  mapRender.globalToRos = (x, y) => {
+    const rosX = (x - mapRender.app.stage.x) / mapRender.app.stage.scale.x
+    const rosY = (mapRender.app.stage.y - y + 50) / mapRender.app.stage.scale.y
+    return { x: rosX, y: rosY }
   }
 
   return mapRender
