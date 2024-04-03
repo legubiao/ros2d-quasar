@@ -7,6 +7,7 @@ const controlParam = useControlParams()
 export default function () {
   const mapRender = {
     dragging: false,
+    focusing: false,
     lastPosition: { x: 0, y: 0 }
   }
 
@@ -41,6 +42,9 @@ export default function () {
         mapRender.focus()
       } else {
         mapRender.pose = pose
+        if (mapRender.focusing) {
+          mapRender.focus()
+        }
       }
     }
   }

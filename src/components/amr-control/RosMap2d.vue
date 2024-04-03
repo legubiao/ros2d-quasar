@@ -43,6 +43,7 @@ function mapCommand (command) {
 
 const isRelocating = ref(false)
 provide('isRelocating', isRelocating)
+const focusing = ref(mapManager.focusing)
 
 function saveMap () {
   $q.dialog({
@@ -81,7 +82,9 @@ function loadMap () {
 <template>
   <q-page-sticky position="top" :offset="[15, 15]">
     <div class="row q-gutter-sm">
-      <q-btn rounded :label="$t('amr2d_focus')" @click="mapManager.focus" color="primary" icon="navigation"/>
+      <q-btn v-if="focusing"  rounded outline :label="$t('amr2d_no_focus')" @click="mapManager.focusing = false; focusing = false" color="negative" icon="navigation"/>
+      <q-btn v-else rounded :label="$t('amr2d_focus')" @click="mapManager.focusing = true; focusing = true" color="primary" icon="navigation"/>
+
       <q-btn rounded :label="$t('amr2d_navigation_relocate')" color="primary" :outline="isRelocating" icon="label_important_outline" @click="isRelocating = !isRelocating"/>
       <q-btn-group rounded>
         <q-btn rounded :label="$t('amr2d_createMap')" color="secondary" icon="explore" @click="mapCommand('start')"/>
