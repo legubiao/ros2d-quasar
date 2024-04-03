@@ -6,8 +6,8 @@ export default function (type) {
 
 const basicLinks = [
   {
-    title: 'AMR Control',
-    caption: 'Use simple UI to control AMR',
+    title: 'router_amr_2d',
+    caption: 'router_amr_2d_description',
     icon: 'videogame_asset',
     link: 'amr'
   }

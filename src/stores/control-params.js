@@ -2,9 +2,10 @@ import { defineStore } from 'pinia'
 
 export const useControlParams = defineStore('counter', {
   state: () => ({
-    linearRatio: 0.4,
+    locale: 'en-US',
+    linearRatio: 0.5,
     refreshInterval: 50,
-    angularRatio: 0.2,
+    angularRatio: 0.5,
     keyboardMove: false,
     moveMode: '2wheeled',
     ip: 'localhost',
@@ -26,6 +27,7 @@ export const useControlParams = defineStore('counter', {
         key: 'control-params',
         storage: localStorage,
         paths: [
+          'locale',
           'ip',
           'linearRatio',
           'refreshInterval',

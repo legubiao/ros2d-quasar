@@ -84,8 +84,8 @@ function show () {
   <q-dialog seamless v-model="visible" position="bottom">
     <div class="q-pa-sm blur">
       <div class="flex justify-center q-gutter-sm">
-        <q-btn class="text-bold" :label="isNavigate?'设定导航目标':'重定位机器人'" color="secondary" :icon-right="isNavigate?'replay':'shuffle'" @click="isNavigate = !isNavigate"/>
-        <q-btn class="text-bold" :label="isLocation?'当前模式：修改位置':'当前模式：修改方向'" color="secondary" :icon-right="isLocation?'replay':'shuffle'" @click="isLocation = !isLocation"/>
+        <q-btn class="text-bold" :label="isNavigate?$t('amr2d_navigation'):$t('amr2d_relocate')" color="primary" :icon-right="isNavigate?'double_arrow':'play_for_work'" @click="isNavigate = !isNavigate"/>
+        <q-btn class="text-bold" :label="isLocation?$t('amr2d_setPosition'):$t('amr2d_setDirection')" color="secondary" :icon-right="isLocation?'pin_drop':'rotate_90_degrees_ccw'" @click="isLocation = !isLocation"/>
       </div>
     </div>
   </q-dialog>

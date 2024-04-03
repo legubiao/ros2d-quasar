@@ -4,9 +4,16 @@
 
 <script>
 import { defineComponent } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useControlParams } from 'stores/control-params'
 
 export default defineComponent({
-  name: 'App'
+  name: 'App',
+  setup () {
+    const { locale } = useI18n({ useScope: 'global' })
+    const params = useControlParams()
+    locale.value = params.locale
+  }
 })
 </script>
 

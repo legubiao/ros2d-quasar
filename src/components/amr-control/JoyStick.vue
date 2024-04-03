@@ -135,17 +135,17 @@ onUnmounted(() => {
   <div ref="left"/>
   <div ref="right"/>
   <q-page-sticky v-show="$q.screen.gt.xs" position="bottom-right" :offset="[15, 15]">
-    <q-btn-dropdown color="primary" label="Joystick Params" :menu-offset="[50,8]">
+    <q-btn-dropdown color="primary" :label="$t('joystick_params')" :menu-offset="[50,8]">
       <q-card-section>
-        <slider-item label="Linear Speed" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
+        <slider-item :label="$t('joystick_linear')" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
                      :max="1"
                      :step="0.05"/>
-        <slider-item label="Rotation Speed" input-label="angular" color="secondary" v-model="controlParams.angularRatio"
+        <slider-item :label="$t('joystick_angular')" input-label="angular" color="secondary" v-model="controlParams.angularRatio"
                      :min="0.1" :max="2"
                      :step="0.1"/>
-        <slider-item label="Interval(ms)" input-label="interval" v-model="controlParams.refreshInterval" :min="25"
+        <slider-item :label="$t('joystick_interval')" input-label="interval" v-model="controlParams.refreshInterval" :min="25"
                      :max="100" :step="25"/>
-        <q-toggle label="Keyboard Control" v-model="controlParams.keyboardMove" @click="initKeyboardCtrl"/>
+        <q-toggle :label="$t('joystick_keyboard')" v-model="controlParams.keyboardMove" @click="initKeyboardCtrl"/>
       </q-card-section>
     </q-btn-dropdown>
   </q-page-sticky>

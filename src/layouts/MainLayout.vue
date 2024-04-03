@@ -7,12 +7,12 @@
           dense
           round
           icon="menu"
-          aria-label="Menu"
+          :aria-label="$t('menu')"
           @click="toggleLeftDrawer"
         />
 
         <q-toolbar-title>
-          <label v-if="$route.name !== 'main'">{{ $route.name }}</label>
+          <label v-if="$route.name !== 'main'">{{ $t(('router_'+ $route.name))}}</label>
         </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
@@ -27,8 +27,8 @@
       <q-list>
         <q-item v-ripple>
           <q-item-section>
-            <q-item-label header class="text-grey-8 text-h6" style="width: 5rem">
-              Menu
+            <q-item-label header class="text-grey-8 text-h6" style="width: 8rem">
+              {{ $t('menu') }}
             </q-item-label>
           </q-item-section>
           <q-item-section side>
