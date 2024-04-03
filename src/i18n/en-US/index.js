@@ -6,6 +6,9 @@ export default {
   ok: 'ok',
   cancel: 'cancel',
 
+  notify_ros_connect: 'Connect to ROS Successfully',
+  notify_ros_release: 'Release Connection with ROS',
+
   router_setting: 'Setting',
   router_amr_2d: '2D AMR Control',
   router_amr_2d_description: 'Mapping, Navigation and Joystick control',

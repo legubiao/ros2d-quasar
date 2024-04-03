@@ -1,8 +1,10 @@
 import { provide, ref } from 'vue'
 import { Notify } from 'quasar'
 import { useControlParams } from 'stores/control-params'
+import { useI18n } from 'vue-i18n'
 
 export default function RosClient () {
+  const { t } = useI18n()
   const connected = ref(false)
   const url = useControlParams().rosUrl
   let ws = null
@@ -66,7 +68,7 @@ export default function RosClient () {
     ws.onopen = () => {
       connected.value = true
       heartCheck.start()
-      Notify.create({ type: 'positive', message: '已建立与ROS的直连' })
+      Notify.create({ type: 'positive', message: t('notify_ros_connect') })
     }
 
     ws.onmessage = (e) => {
@@ -103,7 +105,7 @@ export default function RosClient () {
   rosClient.unsubscribe = (topic) => { wsSend({ op: 'unsubscribe', topic }) }
   rosClient.publish = (topic, msg) => { wsSend({ op: 'publish', topic, msg }) }
   rosClient.close = () => {
-    Notify.create({ type: 'info', message: '已释放与ROS的直连' })
+    Notify.create({ type: 'info', message: t('notify_ros_release') })
     alive = false
     connected.value = false
     ws.close()

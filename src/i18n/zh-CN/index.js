@@ -6,6 +6,9 @@ export default {
   ok: '确认',
   cancel: '取消',
 
+  notify_ros_connect: '已建立与ROS的连接',
+  notify_ros_release: '已释放与ROS的连接',
+
   router_setting: '设置',
   router_amr_2d: '2D移动机器人控制',
   router_amr_2d_description: '建图、导航或使用虚拟手柄遥控机器人',
