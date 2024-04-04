@@ -1,5 +1,5 @@
 <script setup>
-import RosClient from 'components/amr-control/RosClient'
+import RosClient from 'components/ros/RosClient'
 import { onMounted, onUnmounted, provide, ref } from 'vue'
 
 const rosClient = RosClient()

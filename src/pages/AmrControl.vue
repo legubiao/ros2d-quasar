@@ -1,6 +1,6 @@
 <script setup>
-import JoyStick from 'components/amr-control/JoyStick.vue'
-import RosClient from 'components/amr-control/RosClient'
+import JoyStick from 'components/ros/JoyStick.vue'
+import RosClient from 'components/ros/RosClient'
 import { onMounted, onUnmounted, provide } from 'vue'
 import RosMap2d from 'components/amr-control/RosMap2d.vue'
 

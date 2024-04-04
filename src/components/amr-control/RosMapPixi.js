@@ -8,7 +8,9 @@ export default function () {
   const mapRender = {
     dragging: false,
     focusing: false,
-    lastPosition: { x: 0, y: 0 }
+    poseColor: '0xFF6666',
+    lastPosition: { x: 0, y: 0 },
+    poseContainer: new PIXI.Container()
   }
 
   /**
@@ -47,6 +49,40 @@ export default function () {
         }
       }
     }
+  }
+
+  mapRender.loadPoseList = function (poseList) {
+    mapRender.poseContainer.removeChildren()
+    const poseImg = new Image()
+    poseImg.src = 'pose.png'
+    poseImg.onload = function () {
+      poseList.forEach(p => {
+        const pos = p.pose || p
+        const point = PIXI.Sprite.from(poseImg)
+        point.anchor.set(0.5)
+        point.alpha = 0.66
+        const scale = controlParam.arrowScale / poseImg.width
+        point.scale.set(scale)
+        point.tint = getCssVar('info')
+
+        point.x = pos.position.x
+        point.y = -pos.position.y
+        point.rotation = (90 + mapRender.quaternionToTheta(pos.orientation)) * Math.PI / 180
+        point.name = p.header.seq
+
+        mapRender.poseContainer.addChild(point)
+      })
+    }
+  }
+
+  mapRender.changePoseColor = (seq) => {
+    mapRender.poseContainer.children.forEach(point => {
+      if (point.name === seq) {
+        point.tint = getCssVar('positive')
+      } else {
+        point.tint = getCssVar('info')
+      }
+    })
   }
 
   mapRender.quaternionToTheta = (quaternion) => {
@@ -182,6 +218,7 @@ export default function () {
 
     mapRender.app.stage.removeChildren()
     mapRender.app.stage.addChild(mapRender.map)
+    mapRender.app.stage.addChild(mapRender.poseContainer || new PIXI.Container())
     mapRender.app.stage.addChild(mapRender.robot || new PIXI.Sprite())
   }
 

@@ -36,6 +36,9 @@ export default {
   amr2d_loadMap_description: '请选择要加载的地图',
   amr2d_loadMap_empty: '当前没有地图文件',
 
+  mapPose: '导航点',
+  mapPose_title: '导航点管理',
+
   joystick_params: '手柄遥控参数',
   joystick_linear: '线性移动速度',
   joystick_angular: '转向速度',

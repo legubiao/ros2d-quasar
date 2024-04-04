@@ -1,9 +1,11 @@
 <script setup>
-import { inject, ref, watch } from 'vue'
+import { computed, inject, ref, watch } from 'vue'
 
 const robotPose = inject('robotPose')
 
-const visible = inject('isRelocating')
+const pageMode = inject('pageMode')
+const visible = computed(() => (pageMode.value === 'navigation'))
+
 watch(visible, value => {
   if (value) { show() } else close()
 })
