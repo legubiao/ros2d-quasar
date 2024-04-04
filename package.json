@@ -12,14 +12,14 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@quasar/extras": "^1.16.4",
+    "@quasar/extras": "^1.16.11",
     "axios": "^1.2.1",
     "nipplejs": "^0.10.1",
     "pinia": "^2.0.11",
     "pinia-plugin-persist": "^1.0.0",
     "pixi.js": "^7.4.0",
     "quasar": "^2.8.0",
-    "vue": "^3.2.29",
+    "vue": "3",
     "vue-i18n": "^9.9.0",
     "vue-router": "^4.0.12"
   },

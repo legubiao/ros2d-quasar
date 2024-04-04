@@ -77,17 +77,17 @@ function saveMap () {
 <template>
   <q-page-sticky position="top" :offset="[15, 15]">
     <div class="row q-gutter-sm">
+      <q-btn key="no-focus" v-if="focusing"  rounded outline :label="$t('amr2d_no_focus')" @click="mapManager.focusing = false; focusing = false" color="negative" icon="navigation"/>
+      <q-btn key="focusing" v-else rounded :label="$t('amr2d_focus')" @click="mapManager.focusing = true; focusing = true" color="primary" icon="navigation"/>
+
       <transition-group
         appear
         enter-active-class="animated zoomIn"
         leave-active-class="animated zoomOut"
       >
-        <q-btn key="no-focus" v-if="focusing"  rounded outline :label="$t('amr2d_no_focus')" @click="mapManager.focusing = false; focusing = false" color="negative" icon="navigation"/>
-        <q-btn key="focusing" v-else rounded :label="$t('amr2d_focus')" @click="mapManager.focusing = true; focusing = true" color="primary" icon="navigation"/>
-
         <q-btn key="navigation" v-if="mapState === 'navigation' " rounded :label="$t('amr2d_navigation_relocate')" color="primary" :outline="isRelocating" icon="label_important_outline" @click="isRelocating = !isRelocating"/>
         <q-btn key="mapping" v-if="mapState !== 'mapping'" rounded :label="$t('amr2d_createMap')" color="secondary" icon="explore" @click="mapCommand('start')"/>
-        <q-btn key="save-map" v-else rounded :label="$t('amr2d_saveMap')" color="primary" icon="save" @click="saveMap"/>
+        <q-btn key="save-map" v-else rounded :label="$t('amr2d_saveMap')" color="secondary" icon="save" @click="saveMap"/>
         <map-selector key="map-selector"/>
       </transition-group>
     </div>
