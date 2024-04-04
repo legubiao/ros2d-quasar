@@ -48,7 +48,7 @@ const focusing = ref(mapManager.focusing)
 function saveMap () {
   $q.dialog({
     title: t('amr2d_saveMap'),
-    message: t('amr2d_loadMap_description'),
+    message: t('amr2d_saveMap_description'),
     prompt: {
       model: '',
       type: 'text' // optional
@@ -61,16 +61,28 @@ function saveMap () {
   })
 }
 
-function loadMap () {
+async function loadMap () {
+  const response = await rosClient.call('/get_map_files', '')
+  const maps = response.values.message.split(',').map(item => { return { label: item, value: item } })
   $q.dialog({
     title: t('amr2d_loadMap'),
     message: t('amr2d_loadMap_description'),
-    prompt: {
+    options: {
+      type: 'radio',
       model: '',
-      type: 'text' // optional
+      items: maps
     },
-    cancel: { label: t('cancel'), flat: true, color: 'secondary' },
-    ok: { label: t('ok'), flat: true, color: 'primary', class: 'text-bold' },
+    cancel: {
+      label: t('cancel'),
+      flat: true,
+      color: 'secondary'
+    },
+    ok: {
+      label: t('ok'),
+      flat: true,
+      color: 'primary',
+      class: 'text-bold'
+    },
     persistent: true
   }).onOk(data => {
     mapCommand('load ' + data)

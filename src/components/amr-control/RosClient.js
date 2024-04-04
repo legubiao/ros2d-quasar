@@ -78,6 +78,9 @@ export default function RosClient () {
         case 'publish':
           processTopic(resData)
           break
+        case 'service_response':
+          serviceRsMap.set(resData.id, resData)
+          break
       }
     }
   }
@@ -104,6 +107,27 @@ export default function RosClient () {
   rosClient.subscribe = (topic) => { wsSend({ op: 'subscribe', topic }) }
   rosClient.unsubscribe = (topic) => { wsSend({ op: 'unsubscribe', topic }) }
   rosClient.publish = (topic, msg) => { wsSend({ op: 'publish', topic, msg }) }
+
+  const serviceRsMap = new Map()
+  rosClient.call = async (service, args) => {
+    const id = crypto.randomUUID()
+    const rosObj = {
+      op: 'call_service',
+      id,
+      service,
+      args
+    }
+    wsSend(rosObj)
+
+    while (!serviceRsMap.has(id)) {
+      await new Promise(resolve => setTimeout(resolve, 100))
+    }
+
+    const result = serviceRsMap.get(id)
+    serviceRsMap.delete(id)
+    return result
+  }
+
   rosClient.close = () => {
     Notify.create({ type: 'info', message: t('notify_ros_release') })
     alive = false

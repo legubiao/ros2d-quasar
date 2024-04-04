@@ -12,6 +12,8 @@ export default {
   router_setting: '设置',
   router_amr_2d: '2D移动机器人控制',
   router_amr_2d_description: '建图、导航或使用虚拟手柄遥控机器人',
+  router_service: 'ROS服务调用',
+  router_service_description: '测试对于ROS服务的调用',
 
   setting_amr_ip: '机器人IP',
   setting_language: '显示语言',
@@ -28,7 +30,8 @@ export default {
   amr2d_createMap: '创建地图',
   amr2d_saveMap: '保存地图',
   amr2d_loadMap: '加载地图',
-  amr2d_loadMap_description: '请输入地图的名字',
+  amr2d_saveMap_description: '请输入地图的名字',
+  amr2d_loadMap_description: '请选择要加载的地图',
 
   joystick_params: '手柄遥控参数',
   joystick_linear: '线性移动速度',

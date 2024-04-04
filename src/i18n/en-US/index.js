@@ -12,6 +12,8 @@ export default {
   router_setting: 'Setting',
   router_amr_2d: '2D AMR Control',
   router_amr_2d_description: 'Mapping, Navigation and Joystick control',
+  router_service: 'Call ROS Service',
+  router_service_description: 'A test page for calling arbitrary ROS Service',
 
   setting_amr_ip: 'AMR IP',
   setting_language: 'Display Language',
@@ -28,7 +30,8 @@ export default {
   amr2d_createMap: 'Create Map',
   amr2d_saveMap: 'Save Map',
   amr2d_loadMap: 'Load Map',
-  amr2d_loadMap_description: 'Please enter map\'s name',
+  amr2d_saveMap_description: 'Please enter map\'s name',
+  amr2d_loadMap_description: 'Please choose a map',
 
   joystick_params: 'Joystick Params',
   joystick_linear: 'Linear Speed',
