@@ -29,9 +29,10 @@ export default {
   amr2d_setDirection: '选定方向',
   amr2d_createMap: '创建地图',
   amr2d_saveMap: '保存地图',
-  amr2d_loadMap: '加载地图',
   amr2d_saveMap_description: '请输入地图的名字',
+  amr2d_loadMap: '加载地图',
   amr2d_loadMap_description: '请选择要加载的地图',
+  amr2d_loadMap_empty: '当前没有地图文件',
 
   joystick_params: '手柄遥控参数',
   joystick_linear: '线性移动速度',

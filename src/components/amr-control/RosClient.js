@@ -90,6 +90,7 @@ export default function RosClient () {
       case '/robot_pose':rosClient.robotPose.value = rosObject.msg; break
       case '/map_metadata': rosClient.loadMapData.value(rosObject.msg); break
       case '/map': rosClient.loadMapRaw.value(rosObject.msg); break
+      case '/map_state': mapState.value = rosObject.msg.data; break
       case '/scan_simplified': rosClient.scanPose.value = rosObject.msg.polygon !== undefined ? rosObject.msg.polygon.points !== undefined ? rosObject.msg.polygon.points : [] : []; break
     }
   }
@@ -136,6 +137,8 @@ export default function RosClient () {
   }
   rosClient.init = createWs
 
+  const mapState = ref('idle')
+  provide('mapState', mapState)
   provide('robotPose', rosClient.robotPose)
   provide('loadMapData', rosClient.loadMapData)
   provide('loadMapRaw', rosClient.loadMapRaw)

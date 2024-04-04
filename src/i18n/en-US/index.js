@@ -29,9 +29,10 @@ export default {
   amr2d_setDirection: 'Set Direction',
   amr2d_createMap: 'Create Map',
   amr2d_saveMap: 'Save Map',
-  amr2d_loadMap: 'Load Map',
   amr2d_saveMap_description: 'Please enter map\'s name',
+  amr2d_loadMap: 'Load Map',
   amr2d_loadMap_description: 'Please choose a map',
+  amr2d_loadMap_empty: 'There has no map file',
 
   joystick_params: 'Joystick Params',
   joystick_linear: 'Linear Speed',
