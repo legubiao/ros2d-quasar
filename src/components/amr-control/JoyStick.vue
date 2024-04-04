@@ -5,6 +5,10 @@ import { useControlParams } from 'stores/control-params'
 import nipplejs from 'nipplejs'
 import SliderItem from 'components/setting/SliderItem.vue'
 
+const props = defineProps({
+  togglePosition: { type: String, default: 'bottom-right' }
+})
+
 const left = ref()
 const right = ref()
 
@@ -134,8 +138,8 @@ onUnmounted(() => {
 <template>
   <div ref="left"/>
   <div ref="right"/>
-  <q-page-sticky v-show="$q.screen.gt.xs" position="bottom-right" :offset="[15, 15]">
-    <q-btn-dropdown color="primary" :label="$t('joystick_params')" :menu-offset="[50,8]">
+  <q-page-sticky v-show="$q.screen.gt.xs" :position="props.togglePosition" :offset="[15, 15]">
+    <q-btn-dropdown color="primary" :label="$t('joystick_params')" :menu-offset="props.togglePosition === 'bottom-right'?[0,10]:[65,10]">
       <q-card-section>
         <slider-item :label="$t('joystick_linear')" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
                      :max="1"

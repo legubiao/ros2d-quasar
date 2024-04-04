@@ -25,14 +25,6 @@ watch(connected, value => {
   }
 })
 
-watch(mapState, (value, oldValue) => {
-  if (value !== oldValue) {
-    if (oldValue === 'idle') {
-      console.log(value)
-    }
-  }
-})
-
 const mapManager = RosMapPixi()
 provide('mapManager', mapManager)
 const pixiContainer = ref(null)

@@ -8,8 +8,14 @@ const basicLinks = [
   {
     title: 'router_amr_2d',
     caption: 'router_amr_2d_description',
-    icon: 'videogame_asset',
+    icon: 'wifi_tethering',
     link: 'amr'
+  },
+  {
+    title: 'router_joystick',
+    caption: 'router_joystick_description',
+    icon: 'sports_esports',
+    link: 'joystick'
   },
   {
     title: 'router_service',

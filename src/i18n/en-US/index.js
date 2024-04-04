@@ -14,6 +14,8 @@ export default {
   router_amr_2d_description: 'Mapping, Navigation and Joystick control',
   router_service: 'Call ROS Service',
   router_service_description: 'A test page for calling arbitrary ROS Service',
+  router_joystick: 'Joystick Control',
+  router_joystick_description: 'A simply page for Virtual Joystick',
 
   setting_amr_ip: 'AMR IP',
   setting_language: 'Display Language',

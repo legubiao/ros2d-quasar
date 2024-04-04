@@ -14,6 +14,8 @@ export default {
   router_amr_2d_description: '建图、导航或使用虚拟手柄遥控机器人',
   router_service: 'ROS服务调用',
   router_service_description: '测试对于ROS服务的调用',
+  router_joystick: '虚拟手柄',
+  router_joystick_description: '可以通过虚拟手柄遥控机器人',
 
   setting_amr_ip: '机器人IP',
   setting_language: '显示语言',
