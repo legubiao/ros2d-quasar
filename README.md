@@ -1,4 +1,6 @@
-# Quasar App (ros2d-quasar)
+# ROS2D-Quasar
+
+[中文说明](docs/readme_cn.md)
 
 A Quasar Web APP for ROS-Noetic
 
