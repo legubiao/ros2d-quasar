@@ -58,9 +58,9 @@ function choose (pose) {
   <q-dialog seamless v-model="visible" position="bottom">
     <div class="q-pa-sm blur">
       <div class="flex justify-center q-gutter-sm">
-        <q-btn label="addPoseOnRobot" icon="add" color="primary" @click="addPose(robotPose)"/>
-        <q-btn label="savePose" icon="save" color="secondary" @click="poseCommand('save')"/>
-        <q-btn label="refresh" icon="sync" color="primary" @click="poseCommand('load')"/>
+        <q-btn :label="$t('mapPose_add')" icon="add" color="primary" @click="addPose(robotPose)"/>
+        <q-btn :label="$t('mapPose_save')" icon="save" color="secondary" @click="poseCommand('save')"/>
+        <q-btn :label="$t('mapPose_load')" icon="sync" color="primary" @click="poseCommand('load')"/>
       </div>
     </div>
   </q-dialog>

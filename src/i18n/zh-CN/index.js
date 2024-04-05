@@ -37,7 +37,10 @@ export default {
   amr2d_loadMap_empty: '当前没有地图文件',
 
   mapPose: '导航点',
-  mapPose_title: '导航点管理',
+  mapPose_title: '导航点列表',
+  mapPose_add: '新增导航点',
+  mapPose_save: '保存导航点',
+  mapPose_load: '重载导航点',
 
   joystick_params: '手柄遥控参数',
   joystick_linear: '线性移动速度',

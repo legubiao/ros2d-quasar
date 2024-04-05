@@ -36,6 +36,12 @@ export default {
   amr2d_loadMap_description: 'Please choose a map',
   amr2d_loadMap_empty: 'There has no map file',
 
+  mapPose: 'Map Pose',
+  mapPose_title: 'Map Pose List',
+  mapPose_add: 'Add Pose',
+  mapPose_save: 'Save Poses',
+  mapPose_load: 'Reload Poses',
+
   joystick_params: 'Joystick Params',
   joystick_linear: 'Linear Speed',
   joystick_angular: 'Angular Speed',
