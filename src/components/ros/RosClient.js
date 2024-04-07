@@ -2,6 +2,7 @@ import { provide, ref } from 'vue'
 import { Notify } from 'quasar'
 import { useControlParams } from 'stores/control-params'
 import { useI18n } from 'vue-i18n'
+import { v4 as uuidv4 } from 'uuid'
 
 export default function RosClient () {
   const { t } = useI18n()
@@ -111,7 +112,7 @@ export default function RosClient () {
 
   const serviceRsMap = new Map()
   rosClient.call = async (service, args) => {
-    const id = crypto.randomUUID()
+    const id = uuidv4()
     const rosObj = {
       op: 'call_service',
       id,
