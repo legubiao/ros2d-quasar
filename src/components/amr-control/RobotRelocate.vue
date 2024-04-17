@@ -5,6 +5,7 @@ const robotPose = inject('robotPose')
 
 const pageMode = inject('pageMode')
 const visible = computed(() => (pageMode.value === 'navigation'))
+const clicked = ref(false)
 
 watch(visible, value => {
   if (value) { show() } else close()
@@ -16,6 +17,7 @@ mapManager.changePose = (pos) => {
   tempPose.value.position.x = pos.x
   tempPose.value.position.y = pos.y
   mapManager.updateRobotPose(tempPose.value)
+  clicked.value = true
 }
 // 重定方向
 mapManager.changeTheta = (pos) => {
@@ -23,6 +25,7 @@ mapManager.changeTheta = (pos) => {
   tempPose.value.orientation.z = Math.sin(theta / 2)
   tempPose.value.orientation.w = Math.cos(theta / 2)
   mapManager.updateRobotPose(tempPose.value)
+  clicked.value = true
 }
 
 const isLocation = ref(true)
@@ -64,21 +67,24 @@ function close () {
   mapManager.changeLocation = false
   mapManager.changeDirection = false
 
-  if (isNavigate.value) {
-    publish('/move_base_simple/goal', {
-      header: { seq: 0, stamp: 0, frame_id: 'map' },
-      pose: tempPose.value
-    })
-  } else {
-    poseWithCovarianceStamped.value.header.seq++
-    poseWithCovarianceStamped.value.pose.pose = tempPose.value
-    publish('/initialpose', poseWithCovarianceStamped.value)
+  if (clicked.value) {
+    if (isNavigate.value) {
+      publish('/move_base_simple/goal', {
+        header: { seq: 0, stamp: 0, frame_id: 'map' },
+        pose: tempPose.value
+      })
+    } else {
+      poseWithCovarianceStamped.value.header.seq++
+      poseWithCovarianceStamped.value.pose.pose = tempPose.value
+      publish('/initialpose', poseWithCovarianceStamped.value)
+    }
   }
 }
 
 function show () {
   tempPose.value = robotPose.value.pose
   mapManager.changeLocation = true
+  clicked.value = false
 }
 </script>
 
