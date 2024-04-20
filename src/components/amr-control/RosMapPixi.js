@@ -187,9 +187,10 @@ export default function () {
     map.anchor.y = 1
     map.scale.set(map.scale.x, -map.scale.y)
 
-    map.y = map.height * data.info.resolution
+    map.y = -map.height
+
     map.x += data.info.origin.position.x
-    map.y += data.info.origin.position.y
+    map.y -= data.info.origin.position.y
 
     if (mapRender.map) {
       mapRender.map = map
