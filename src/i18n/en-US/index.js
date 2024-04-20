@@ -21,6 +21,7 @@ export default {
   setting_language: 'Display Language',
   setting_topic_speed: 'CMD_VEL Topic',
   setting_arrow_size: 'Robot Arrow Size',
+  setting_checkMapState: 'Check Map State',
 
   amr2d_navigation_relocate: 'Navigation & Relocate',
   amr2d_focus: 'Focus on AMR',

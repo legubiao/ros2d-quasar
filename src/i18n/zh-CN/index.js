@@ -21,6 +21,7 @@ export default {
   setting_language: '显示语言',
   setting_topic_speed: '速度指令 Topic',
   setting_arrow_size: '机器人箭头大小',
+  setting_checkMapState: '检查地图状态',
 
   amr2d_navigation_relocate: '导航与重定位',
   amr2d_focus: '视角跟随机器人',

@@ -10,6 +10,7 @@ export const useControlParams = defineStore('counter', {
     moveMode: '2wheeled',
     ip: 'localhost',
     cmdTopic: '/cmd_vel',
+    requireMapState: true,
     arrowScale: 1,
     poseSize: 0.5
   }),
@@ -28,6 +29,7 @@ export const useControlParams = defineStore('counter', {
         key: 'control-params',
         storage: localStorage,
         paths: [
+          'requireMapState',
           'locale',
           'ip',
           'linearRatio',

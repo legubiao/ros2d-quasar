@@ -7,6 +7,7 @@ import RobotRelocate from 'components/amr-control/RobotRelocate.vue'
 import MapSelector from 'components/amr-control/MapSelector.vue'
 import MapCreate from 'components/amr-control/MapCreate.vue'
 import PoseManager from 'components/map-pose/PoseManager.vue'
+import { useControlParams } from 'stores/control-params'
 
 const rosClient = inject('rosClient')
 const connected = inject('connected')
@@ -21,6 +22,7 @@ watch(connected, value => {
   }
 })
 
+const controlParam = useControlParams()
 const mapManager = RosMapPixi()
 provide('mapManager', mapManager)
 const pixiContainer = ref(null)
@@ -56,7 +58,7 @@ const focusing = ref(mapManager.focusing)
         enter-active-class="animated zoomIn"
         leave-active-class="animated zoomOut"
       >
-        <q-btn key="navigation" v-if="mapState === 'navigation' && pageMode !== 'mapPose'" rounded
+        <q-btn key="navigation" v-if="!controlParam.requireMapState || mapState === 'navigation' && pageMode !== 'mapPose'" rounded
                :label="$t('amr2d_navigation_relocate')" color="primary"
                :outline="pageMode === 'navigation'" icon="label_important_outline"
                @click="pageMode === 'navigation'?(pageMode = 'default'):(pageMode='navigation')"/>
