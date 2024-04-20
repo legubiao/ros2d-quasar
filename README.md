@@ -46,3 +46,15 @@ quasar dev
 
 ## 连接机器人
 
+## 构建项目并打包为Docker镜像
+也可以直接通过[DockerHub](https://hub.docker.com/repository/docker/legubiao/ros2d-quasar/general)下载使用
+
+构建项目
+```bash
+quasar build
+```
+
+生成Docker镜像
+```bash
+docker build -t ros2d-quasar .
+```
