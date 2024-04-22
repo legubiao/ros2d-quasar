@@ -142,7 +142,7 @@ onUnmounted(() => {
     <q-btn-dropdown color="primary" :label="$t('joystick_params')" :menu-offset="props.togglePosition === 'bottom-right'?[0,10]:[65,10]">
       <q-card-section>
         <slider-item :label="$t('joystick_linear')" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
-                     :max="1"
+                     :max="parseInt(controlParams.linearMax)"
                      :step="0.05"/>
         <slider-item :label="$t('joystick_angular')" input-label="angular" color="secondary" v-model="controlParams.angularRatio"
                      :min="0.1" :max="2"
