@@ -44,4 +44,4 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
     - name: Push Docker image to Docker Hub
-      run: docker push your-dockerhub-username/your-repo-name:latest
+      run: docker push legubiao/ros2d-quasar:latest
