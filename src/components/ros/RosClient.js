@@ -86,11 +86,13 @@ export default function RosClient () {
     }
   }
 
+  const mapTopic = useControlParams().mapTopic
+
   function processTopic (rosObject) {
     switch (rosObject.topic) {
       case '/robot_pose':rosClient.robotPose.value = rosObject.msg; break
       case '/map_metadata': rosClient.loadMapData.value(rosObject.msg); break
-      case '/map': rosClient.loadMapRaw.value(rosObject.msg); break
+      case mapTopic: rosClient.loadMapRaw.value(rosObject.msg); break
       case '/map_state': mapState.value = rosObject.msg.data; break
       case '/scan_simplified': rosClient.scanPose.value = rosObject.msg.polygon !== undefined ? rosObject.msg.polygon.points !== undefined ? rosObject.msg.polygon.points : [] : []; break
     }

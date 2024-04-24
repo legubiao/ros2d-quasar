@@ -15,7 +15,7 @@ const mapState = inject('mapState')
 
 watch(connected, value => {
   if (value) {
-    rosClient.subscribe('/map')
+    rosClient.subscribe(controlParam.mapTopic)
     rosClient.subscribe('/map_metadata')
     rosClient.subscribe('/robot_pose')
     rosClient.subscribe('/map_state')

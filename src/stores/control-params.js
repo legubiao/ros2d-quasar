@@ -10,6 +10,7 @@ export const useControlParams = defineStore('counter', {
     moveMode: '2wheeled',
     ip: 'localhost',
     cmdTopic: '/cmd_vel',
+    mapTopic: '/map',
     requireMapState: true,
     arrowScale: 1,
     poseSize: 0.5
@@ -38,6 +39,7 @@ export const useControlParams = defineStore('counter', {
           'keyboardMove',
           'moveMode',
           'cmdTopic',
+          'mapTopic',
           'arrowScale',
           'poseSize'
         ]

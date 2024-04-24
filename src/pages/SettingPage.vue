@@ -21,6 +21,7 @@ watch(locale, value => {
     <div class="q-gutter-y-md">
       <q-input v-model="controlParam.ip" :label="$t('setting_amr_ip')" outlined/>
       <q-input v-model="controlParam.cmdTopic" :label="$t('setting_topic_speed')" outlined/>
+      <q-input v-model="controlParam.mapTopic" :label="$t('setting_topic_map')" outlined/>
       <q-input v-model="controlParam.arrowScale" :label="$t('setting_arrow_size')" outlined/>
 
       <q-select

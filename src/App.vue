@@ -15,14 +15,16 @@ export default defineComponent({
     locale.value = params.locale
 
     onBeforeMount(() => {
-      let pos = window.location.href.indexOf('://')
-      let deviceIP
-      if (pos >= 0) {
-        pos += 3
-        deviceIP = window.location.href.slice(pos)
-        deviceIP = deviceIP.split(':')[0]
-        deviceIP = deviceIP.split('/')[0]
-        params.ip = deviceIP
+      if (params.ip === 'localhost') {
+        let pos = window.location.href.indexOf('://')
+        let deviceIP
+        if (pos >= 0) {
+          pos += 3
+          deviceIP = window.location.href.slice(pos)
+          deviceIP = deviceIP.split(':')[0]
+          deviceIP = deviceIP.split('/')[0]
+          params.ip = deviceIP
+        }
       }
     })
   }

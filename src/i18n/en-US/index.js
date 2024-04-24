@@ -20,6 +20,7 @@ export default {
   setting_amr_ip: 'AMR IP',
   setting_language: 'Display Language',
   setting_topic_speed: 'CMD_VEL Topic',
+  setting_topic_map: 'Map Topic',
   setting_arrow_size: 'Robot Arrow Size',
   setting_checkMapState: 'Check Map State',
 

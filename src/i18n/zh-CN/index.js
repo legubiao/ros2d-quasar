@@ -20,6 +20,7 @@ export default {
   setting_amr_ip: '机器人IP',
   setting_language: '显示语言',
   setting_topic_speed: '速度指令 Topic',
+  setting_topic_map: '地图 Topic',
   setting_arrow_size: '机器人箭头大小',
   setting_checkMapState: '检查地图状态',
 
