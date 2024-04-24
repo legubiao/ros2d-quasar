@@ -4,6 +4,7 @@ export const useControlParams = defineStore('counter', {
   state: () => ({
     locale: 'en-US',
     linearRatio: 0.5,
+    linearMax: 1,
     refreshInterval: 50,
     angularRatio: 0.5,
     keyboardMove: false,
@@ -34,6 +35,7 @@ export const useControlParams = defineStore('counter', {
           'locale',
           'ip',
           'linearRatio',
+          'linearMax',
           'refreshInterval',
           'angularRatio',
           'keyboardMove',
