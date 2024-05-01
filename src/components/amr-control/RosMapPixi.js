@@ -110,14 +110,14 @@ export default function () {
     /*
     鼠标滚轮缩放
      */
-    app.view.addEventListener('wheel', (event) => {
+    app.view.addEventListener('wheel', event => {
+      const scale = mapRender.app.stage.scale
       const delta = event.deltaY > 0 ? 0.9 : 1.1
-      const originScale = mapRender.app.stage.scale
-      mapRender.app.stage.scale.set(originScale.x * delta, originScale.y * delta)
+      scale.set(scale.x * delta, scale.y * delta)
     })
 
     // 当鼠标按下时开始拖动
-    app.view.addEventListener('pointerdown', (event) => {
+    app.view.addEventListener('pointerdown', event => {
       if (mapRender.changeLocation) {
         const timeInterval = new Date().getTime()
         if (mapRender.lastClick && timeInterval - mapRender.lastClick < 500) {
@@ -136,19 +136,43 @@ export default function () {
     })
 
     // 当鼠标移动时，如果处于拖动状态，则移动画布
-    app.view.addEventListener('pointermove', function (event) {
-      if (mapRender.dragging) {
-        app.stage.x += event.x - mapRender.lastPosition.x
-        app.stage.y += event.y - mapRender.lastPosition.y
-        mapRender.lastPosition = {
-          x: event.x,
-          y: event.y
-        }
-      }
+    app.view.addEventListener('pointermove', event => {
+      if (!mapRender.dragging) return
+      const { x, y } = event
+      app.stage.x += x - mapRender.lastPosition.x
+      app.stage.y += y - mapRender.lastPosition.y
+      mapRender.lastPosition = { x, y }
     })
 
     app.view.addEventListener('pointerup', function () {
       mapRender.dragging = false
+    })
+
+    app.view.addEventListener('touchstart', event => {
+      if (event.touches.length === 2) {
+        mapRender.dragging = false
+        mapRender.initialDistance = Math.hypot(
+          event.touches[0].clientX - event.touches[1].clientX,
+          event.touches[0].clientY - event.touches[1].clientY
+        )
+        mapRender.initialScale = mapRender.app.stage.scale.x
+      }
+    })
+
+    app.view.addEventListener('touchmove', event => {
+      if (event.touches.length === 2 && mapRender.initialDistance) {
+        mapRender.dragging = false
+        const currentDistance = Math.hypot(
+          event.touches[0].clientX - event.touches[1].clientX,
+          event.touches[0].clientY - event.touches[1].clientY
+        )
+        const scaleRatio = currentDistance / mapRender.initialDistance
+        mapRender.app.stage.scale.set(scaleRatio * mapRender.initialScale, scaleRatio * mapRender.initialScale)
+      }
+    })
+
+    app.view.addEventListener('touchend', event => {
+      mapRender.initialDistance = null
     })
 
     mapRender.app = app
