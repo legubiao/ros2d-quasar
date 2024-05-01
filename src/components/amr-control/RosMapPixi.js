@@ -171,7 +171,7 @@ export default function () {
       }
     })
 
-    app.view.addEventListener('touchend', event => {
+    app.view.addEventListener('touchend', () => {
       mapRender.initialDistance = null
     })
 
