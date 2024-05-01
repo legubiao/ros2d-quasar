@@ -25,7 +25,8 @@ export default function () {
       robot.scale.set(controlParam.arrowScale / robotImg.width)
       robot.anchor.set(0.5)
       robot.tint = getCssVar('primary')
-      mapRender.robot = robot
+      mapRender.robot = new PIXI.Container()
+      mapRender.robot.addChild(robot)
       mapRender.updateStage()
     }
   }
@@ -228,6 +229,34 @@ export default function () {
     PIXI.utils.clearTextureCache()
   }
 
+  mapRender.processLaserScan = (data) => {
+    // if (mapRender.lastLaserScan && (mapRender.lastLaserScan.header.stamp.secs === data.header.stamp.secs)) return
+    // mapRender.lastLaserScan = data
+    const laserScan = new PIXI.Container()
+    data.ranges.forEach((range, i) => {
+      const angle = data.angle_min + i * data.angle_increment
+      const x = range * Math.cos(angle)
+      const y = -range * Math.sin(angle)
+
+      // 创建一个新的Graphics对象，用于绘制单个激光点
+      const point = new PIXI.Graphics()
+      point.beginFill(getCssVar('negative'))
+      point.drawCircle(x, y, 0.05) // 0.05是圆点的半径，你可以根据需要调整
+      point.endFill()
+
+      // 将激光点添加到laserScan中
+      laserScan.addChild(point)
+    })
+
+    if (mapRender.robot) {
+      if (mapRender.robot.children.length > 1) {
+        mapRender.robot.removeChildAt(1)
+      }
+      laserScan.rotation = -90 * Math.PI / 180
+      mapRender.robot.addChildAt(laserScan, 1)
+    }
+  }
+
   /**
    * 渲染Canvas中需要渲染的元素
    */
@@ -244,7 +273,7 @@ export default function () {
     mapRender.app.stage.removeChildren()
     mapRender.app.stage.addChild(mapRender.map)
     mapRender.app.stage.addChild(mapRender.poseContainer || new PIXI.Container())
-    mapRender.app.stage.addChild(mapRender.robot || new PIXI.Sprite())
+    mapRender.app.stage.addChild(mapRender.robot || new PIXI.Container())
   }
 
   /**

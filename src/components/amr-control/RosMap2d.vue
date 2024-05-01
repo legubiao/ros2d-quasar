@@ -16,6 +16,7 @@ const mapState = inject('mapState')
 watch(connected, value => {
   if (value) {
     rosClient.subscribe(controlParam.mapTopic)
+    rosClient.subscribe(controlParam.laserScanTopic)
     rosClient.subscribe('/map_metadata')
     rosClient.subscribe('/robot_pose')
     rosClient.subscribe('/map_state')
@@ -26,11 +27,11 @@ const controlParam = useControlParams()
 const mapManager = RosMapPixi()
 provide('mapManager', mapManager)
 const pixiContainer = ref(null)
-const loadMapRaw = inject('loadMapRaw')
 
 onMounted(() => {
   mapManager.init({ canvas: pixiContainer.value })
-  loadMapRaw.value = mapManager.processMapRaw
+  rosClient.loadMapRaw.value = mapManager.processMapRaw
+  if (controlParam.laserScanEnable) rosClient.loadLaserScan.value = mapManager.processLaserScan
 })
 
 const robotPose = inject('robotPose')

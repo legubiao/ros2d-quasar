@@ -12,6 +12,10 @@ export const useControlParams = defineStore('counter', {
     ip: 'localhost',
     cmdTopic: '/cmd_vel',
     mapTopic: '/map',
+
+    laserScanEnable: false,
+    laserScanTopic: '/scan',
+
     requireMapState: true,
     arrowScale: 1,
     poseSize: 0.5
@@ -42,6 +46,8 @@ export const useControlParams = defineStore('counter', {
           'moveMode',
           'cmdTopic',
           'mapTopic',
+          'laserScanEnable',
+          'laserScanTopic',
           'arrowScale',
           'poseSize'
         ]

@@ -13,6 +13,7 @@ export default function RosClient () {
     robotPose: ref({}),
     loadMapData: ref(function (data) {}),
     loadMapRaw: ref(function (data) {}),
+    loadLaserScan: ref(function (data) {}),
     scanPose: ref([])
   }
 
@@ -87,12 +88,14 @@ export default function RosClient () {
   }
 
   const mapTopic = useControlParams().mapTopic
+  const laserScanTopic = useControlParams().laserScanTopic
 
   function processTopic (rosObject) {
     switch (rosObject.topic) {
       case '/robot_pose':rosClient.robotPose.value = rosObject.msg; break
       case '/map_metadata': rosClient.loadMapData.value(rosObject.msg); break
       case mapTopic: rosClient.loadMapRaw.value(rosObject.msg); break
+      case laserScanTopic: rosClient.loadLaserScan.value(rosObject.msg); break
       case '/map_state': mapState.value = rosObject.msg.data; break
       case '/scan_simplified': rosClient.scanPose.value = rosObject.msg.polygon !== undefined ? rosObject.msg.polygon.points !== undefined ? rosObject.msg.polygon.points : [] : []; break
     }
@@ -143,8 +146,6 @@ export default function RosClient () {
   const mapState = ref('idle')
   provide('mapState', mapState)
   provide('robotPose', rosClient.robotPose)
-  provide('loadMapData', rosClient.loadMapData)
-  provide('loadMapRaw', rosClient.loadMapRaw)
   provide('subscribe', rosClient.subscribe)
   provide('unsubscribe', rosClient.unsubscribe)
   provide('publish', rosClient.publish)

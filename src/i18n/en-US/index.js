@@ -21,6 +21,8 @@ export default {
   setting_language: 'Display Language',
   setting_topic_speed: 'CMD_VEL Topic',
   setting_topic_map: 'Map Topic',
+  setting_laser_scan: 'Visualize 2D Laser Scan',
+  setting_laser_scan_topic: '2D Laser Scan Topic',
   setting_arrow_size: 'Robot Arrow Size',
   setting_checkMapState: 'Check Map State',
   setting_linear_limit: 'Linear Speed Limit',

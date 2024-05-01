@@ -17,8 +17,8 @@ watch(locale, value => {
 </script>
 
 <template>
-  <div class="q-pa-md">
-    <div class="q-gutter-y-md">
+  <q-scroll-area>
+    <div class="q-gutter-y-md q-pa-md rounded-borders">
       <q-input v-model="controlParam.ip" :label="$t('setting_amr_ip')" outlined/>
       <q-input v-model="controlParam.cmdTopic" :label="$t('setting_topic_speed')" outlined/>
       <q-input v-model="controlParam.mapTopic" :label="$t('setting_topic_map')" outlined/>
@@ -35,6 +35,21 @@ watch(locale, value => {
       />
 
       <q-toggle :label="$t('setting_checkMapState')" v-model="controlParam.requireMapState"/>
+
+      <q-list bordered class="rounded-borders">
+        <q-expansion-item>
+          <template v-slot:header>
+            <q-toggle v-model="controlParam.laserScanEnable" icon="wifi_tethering"/>
+            <q-item-section>
+              {{ $t('setting_laser_scan') }}
+            </q-item-section>
+          </template>
+          <q-separator />
+          <q-card-section>
+            <q-input v-model="controlParam.laserScanTopic" :label="$t('setting_laser_scan_topic')" outlined/>
+          </q-card-section>
+        </q-expansion-item>
+      </q-list>
     </div>
-  </div>
+  </q-scroll-area>
 </template>

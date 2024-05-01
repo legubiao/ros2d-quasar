@@ -21,6 +21,8 @@ export default {
   setting_language: '显示语言',
   setting_topic_speed: '速度指令 Topic',
   setting_topic_map: '地图 Topic',
+  setting_laser_scan: '显示2D激光雷达',
+  setting_laser_scan_topic: '2D激光雷达 Topic',
   setting_arrow_size: '机器人箭头大小',
   setting_checkMapState: '检查地图状态',
   setting_linear_limit: '线速度上限',
