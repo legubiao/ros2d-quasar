@@ -6,11 +6,13 @@ import nipplejs from 'nipplejs'
 import SliderItem from 'components/setting/SliderItem.vue'
 
 const props = defineProps({
-  togglePosition: { type: String, default: 'bottom-right' }
+  togglePosition: { type: String, default: 'bottom-right' },
+  visibleSwitch: { type: Boolean, default: true }
 })
 
 const left = ref()
 const right = ref()
+const visible = ref(true)
 
 // Linear and Angular speed
 const linear = ref(0)
@@ -115,17 +117,19 @@ function initKeyboardCtrl () {
   }
 }
 
-/**
- * Create Timer to publish velocity
- */
-let timer
-onMounted(() => {
+function init () {
   initJoyStick()
   initKeyboardCtrl()
   timer = setInterval(() => {
     pubVel(linear.value, angular.value)
   }, controlParams.refreshInterval)
-})
+}
+
+/**
+ * Create Timer to publish velocity
+ */
+let timer
+onMounted(init)
 
 onUnmounted(() => {
   clearInterval(timer)
@@ -136,10 +140,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div ref="left"/>
-  <div ref="right"/>
+  <div ref="left" v-show="visible"/>
+  <div ref="right" v-show="visible"/>
   <q-page-sticky v-show="$q.screen.gt.xs" :position="props.togglePosition" :offset="[15, 15]">
-    <q-btn-dropdown color="primary" :label="$t('joystick_params')" :menu-offset="props.togglePosition === 'bottom-right'?[0,10]:[65,10]">
+    <q-btn-dropdown v-show="visible" color="primary" :label="$t('joystick_params')" :menu-offset="props.togglePosition === 'bottom-right'?[0,10]:[65,10]">
       <q-card-section>
         <slider-item :label="$t('joystick_linear')" input-label="linear" color="secondary" v-model="controlParams.linearRatio" :min="0.05"
                      :max="parseInt(controlParams.linearMax)"
@@ -152,5 +156,6 @@ onUnmounted(() => {
         <q-toggle :label="$t('joystick_keyboard')" v-model="controlParams.keyboardMove" @click="initKeyboardCtrl"/>
       </q-card-section>
     </q-btn-dropdown>
+    <q-toggle v-if="props.visibleSwitch" v-model="visible" icon="sports_esports"/>
   </q-page-sticky>
 </template>

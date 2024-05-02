@@ -23,7 +23,3 @@ onUnmounted(() => {
     <joy-stick/>
   </div>
 </template>
-
-<style scoped>
-
-</style>

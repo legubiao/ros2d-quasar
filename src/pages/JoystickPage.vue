@@ -18,10 +18,6 @@ onUnmounted(() => {
 
 <template>
   <div>
-    <joy-stick toggle-position="bottom"/>
+    <joy-stick toggle-position="bottom" :visible-switch="false"/>
   </div>
 </template>
-
-<style scoped>
-
-</style>

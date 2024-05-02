@@ -56,7 +56,3 @@ async function call () {
     </q-splitter>
   </div>
 </template>
-
-<style scoped>
-
-</style>

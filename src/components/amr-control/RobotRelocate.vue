@@ -12,19 +12,29 @@ watch(visible, value => {
 })
 
 const mapManager = inject('mapManager')
+
 // 重定位置
 mapManager.changePose = (pos) => {
   tempPose.value.position.x = pos.x
   tempPose.value.position.y = pos.y
-  mapManager.updateRobotPose(tempPose.value)
+  if (isNavigate.value) {
+    mapManager.updateTargetPose(tempPose.value)
+  } else {
+    mapManager.updateRobotPose(tempPose.value)
+  }
   clicked.value = true
 }
+
 // 重定方向
 mapManager.changeTheta = (pos) => {
   const theta = Math.atan2(pos.y - tempPose.value.position.y, pos.x - tempPose.value.position.x)
   tempPose.value.orientation.z = Math.sin(theta / 2)
   tempPose.value.orientation.w = Math.cos(theta / 2)
-  mapManager.updateRobotPose(tempPose.value)
+  if (isNavigate.value) {
+    mapManager.updateTargetPose(tempPose.value)
+  } else {
+    mapManager.updateRobotPose(tempPose.value)
+  }
   clicked.value = true
 }
 
@@ -66,6 +76,7 @@ const publish = inject('publish')
 function close () {
   mapManager.changeLocation = false
   mapManager.changeDirection = false
+  mapManager.removeTarget()
 
   if (clicked.value) {
     if (isNavigate.value) {

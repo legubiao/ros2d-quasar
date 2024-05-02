@@ -23,7 +23,7 @@ function selectMap () {
 </script>
 
 <template>
-  <q-btn rounded :label="$t('amr2d_loadMap')" color="primary" icon="download" @click="show">
+  <q-btn no-wrap rounded :label="$t('amr2d_loadMap')" color="primary" icon="download" @click="show">
     <q-dialog v-model="visible" persistent>
       <q-card>
         <q-card-section class="text-h6" style="min-width: 20rem">
@@ -50,7 +50,3 @@ function selectMap () {
     </q-dialog>
   </q-btn>
 </template>
-
-<style scoped>
-
-</style>

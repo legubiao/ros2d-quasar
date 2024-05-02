@@ -52,6 +52,34 @@ export default function () {
     }
   }
 
+  mapRender.updateTargetPose = (pose) => {
+    if (mapRender.target) {
+      mapRender.target.x = pose.position.x
+      mapRender.target.y = -pose.position.y
+      mapRender.target.rotation = (90 + mapRender.quaternionToTheta(pose.orientation)) * Math.PI / 180
+    } else {
+      const targetImg = new Image()
+      targetImg.src = 'arrow.png'
+      targetImg.onload = function () {
+        const target = PIXI.Sprite.from(targetImg)
+        target.anchor.set(0.5)
+        target.alpha = 0.66
+        target.scale.set(controlParam.arrowScale / targetImg.width)
+        target.tint = getCssVar('positive')
+        target.x = pose.position.x
+        target.y = -pose.position.y
+        target.rotation = (90 + mapRender.quaternionToTheta(pose.orientation)) * Math.PI / 180
+        mapRender.target = target
+        mapRender.app.stage.addChild(mapRender.target)
+      }
+    }
+  }
+
+  mapRender.removeTarget = () => {
+    mapRender.app.stage.removeChild(mapRender.target)
+    mapRender.target = null
+  }
+
   mapRender.loadPoseList = function (poseList) {
     mapRender.poseContainer.removeChildren()
     const poseImg = new Image()
@@ -134,7 +162,7 @@ export default function () {
 
     // 当鼠标移动时，如果处于拖动状态，则移动画布
     app.view.addEventListener('pointermove', event => {
-      if (!mapRender.dragging) return
+      if (!mapRender.dragging || mapRender.focusing) return
       const { x, y } = event
       app.stage.x += x - mapRender.lastPosition.x
       app.stage.y += y - mapRender.lastPosition.y
