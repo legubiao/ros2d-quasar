@@ -81,18 +81,25 @@ function close () {
   }
 }
 
+function cancel () {
+  clicked.value = false
+  pageMode.value = 'default'
+}
+
 function show () {
   tempPose.value = robotPose.value.pose
   mapManager.changeLocation = true
   clicked.value = false
 }
+
+defineExpose({ cancel })
 </script>
 
 <template>
   <q-dialog seamless v-model="visible" position="bottom">
     <div class="q-pa-sm blur">
       <div class="flex justify-center q-gutter-sm">
-        <q-btn class="text-bold" :label="isNavigate?$t('amr2d_navigation'):$t('amr2d_relocate')" color="primary" :icon-right="isNavigate?'double_arrow':'play_for_work'" @click="isNavigate = !isNavigate"/>
+        <q-btn class="text-bold" :label="isNavigate?$t('amr2d_navigation'):$t('amr2d_relocate')" :color="isNavigate?'primary':'accent'" :icon-right="isNavigate?'double_arrow':'play_for_work'" @click="isNavigate = !isNavigate"/>
         <q-btn class="text-bold" :label="isLocation?$t('amr2d_setPosition'):$t('amr2d_setDirection')" color="secondary" :icon-right="isLocation?'pin_drop':'rotate_90_degrees_ccw'" @click="isLocation = !isLocation"/>
       </div>
     </div>

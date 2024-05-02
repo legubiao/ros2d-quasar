@@ -34,7 +34,3 @@ function saveMap () {
   <q-btn key="mapping" v-if="mapState !== 'mapping'" rounded :label="$t('amr2d_createMap')" color="secondary" icon="explore" @click="mapCommand('start')"/>
   <q-btn key="save-map" v-else rounded :label="$t('amr2d_saveMap')" color="secondary" icon="save" @click="saveMap"/>
 </template>
-
-<style scoped>
-
-</style>

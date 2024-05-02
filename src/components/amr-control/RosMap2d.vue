@@ -17,7 +17,6 @@ watch(connected, value => {
   if (value) {
     rosClient.subscribe(controlParam.mapTopic)
     rosClient.subscribe(controlParam.laserScanTopic)
-    rosClient.subscribe('/map_metadata')
     rosClient.subscribe('/robot_pose')
     rosClient.subscribe('/map_state')
   }
@@ -43,12 +42,13 @@ const pageMode = ref('default')
 provide('pageMode', pageMode)
 
 const focusing = ref(mapManager.focusing)
+const robotRelocate = ref()
 
 </script>
 
 <template>
   <q-page-sticky position="top" :offset="[15, 15]">
-    <div class="row q-gutter-sm">
+    <div class="row q-gutter-sm q-pb-sm scrollable-row">
       <q-btn key="no-focus" v-if="focusing"  rounded outline :label="$t('amr2d_no_focus')"
              @click="mapManager.focusing = false; focusing = false" color="negative" icon="navigation"/>
       <q-btn key="focusing" v-else rounded :label="$t('amr2d_focus')"
@@ -63,6 +63,8 @@ const focusing = ref(mapManager.focusing)
                :label="$t('amr2d_navigation_relocate')" color="primary"
                :outline="pageMode === 'navigation'" icon="label_important_outline"
                @click="pageMode === 'navigation'?(pageMode = 'default'):(pageMode='navigation')"/>
+        <q-btn key="navigation-cancel" v-if="pageMode==='navigation'" :label="$t('cancel')" rounded color="warning"
+               @click="robotRelocate.cancel()"/>
         <q-btn key="map-pose" v-if="mapState === 'navigation'  && pageMode !== 'navigation'" rounded
                :label="$t('mapPose')" color="accent"
                :outline="pageMode === 'mapPose'" icon="grain"
@@ -73,6 +75,17 @@ const focusing = ref(mapManager.focusing)
     </div>
   </q-page-sticky>
   <canvas ref="pixiContainer" class="full-width full-height"/>
-  <RobotRelocate/>
+  <RobotRelocate ref="robotRelocate"/>
   <pose-manager/>
 </template>
+
+<style scoped>
+.scrollable-row {
+  display: inline-block;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-height: 3rem;
+  white-space: nowrap;
+}
+</style>

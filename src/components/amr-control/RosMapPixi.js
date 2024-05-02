@@ -120,11 +120,7 @@ export default function () {
     // 当鼠标按下时开始拖动
     app.view.addEventListener('pointerdown', event => {
       if (mapRender.changeLocation) {
-        const timeInterval = new Date().getTime()
-        if (mapRender.lastClick && timeInterval - mapRender.lastClick < 500) {
-          mapRender.changePose(mapRender.globalToRos(event.x, event.y))
-        }
-        mapRender.lastClick = timeInterval
+        mapRender.changePose(mapRender.globalToRos(event.x, event.y))
       } else if (mapRender.changeDirection) {
         mapRender.changeTheta(mapRender.globalToRos(event.x, event.y))
       } else {
