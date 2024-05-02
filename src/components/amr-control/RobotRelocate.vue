@@ -95,6 +95,8 @@ function close () {
 function cancel () {
   clicked.value = false
   pageMode.value = 'default'
+  publish('/move_base/cancel', {})
+  mapManager.clearPath()
 }
 
 function show () {

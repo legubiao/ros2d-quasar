@@ -8,21 +8,24 @@ import MapSelector from 'components/amr-control/MapSelector.vue'
 import MapCreate from 'components/amr-control/MapCreate.vue'
 import PoseManager from 'components/map-pose/PoseManager.vue'
 import { useControlParams } from 'stores/control-params'
+import { useVisualization } from 'stores/visualization'
 
 const rosClient = inject('rosClient')
 const connected = inject('connected')
 const mapState = inject('mapState')
+const visualization = useVisualization()
+const controlParam = useControlParams()
 
 watch(connected, value => {
   if (value) {
     rosClient.subscribe(controlParam.mapTopic)
-    rosClient.subscribe(controlParam.laserScanTopic)
     rosClient.subscribe('/robot_pose')
     rosClient.subscribe('/map_state')
+    if (visualization.pathEnable) rosClient.subscribe(visualization.pathTopic)
+    if (visualization.laserScanEnable) rosClient.subscribe(visualization.laserScanTopic)
   }
 })
 
-const controlParam = useControlParams()
 const mapManager = RosMapPixi()
 provide('mapManager', mapManager)
 const pixiContainer = ref(null)
@@ -30,7 +33,8 @@ const pixiContainer = ref(null)
 onMounted(() => {
   mapManager.init({ canvas: pixiContainer.value })
   rosClient.loadMapRaw.value = mapManager.processMapRaw
-  if (controlParam.laserScanEnable) rosClient.loadLaserScan.value = mapManager.processLaserScan
+  if (visualization.laserScanEnable) rosClient.loadLaserScan.value = mapManager.processLaserScan
+  if (visualization.pathEnable) rosClient.loadPath.value = mapManager.processPath
 })
 
 const robotPose = inject('robotPose')

@@ -3,18 +3,21 @@ import { Notify } from 'quasar'
 import { useControlParams } from 'stores/control-params'
 import { useI18n } from 'vue-i18n'
 import { v4 as uuidv4 } from 'uuid'
+import { useVisualization } from 'stores/visualization'
 
 export default function RosClient () {
   const { t } = useI18n()
   const connected = ref(false)
-  const url = useControlParams().rosUrl
+  const controlParams = useControlParams()
+  const visualization = useVisualization()
+  const url = controlParams.rosUrl
   let ws = null
   const rosClient = {
     robotPose: ref({}),
     loadMapData: ref(function (data) {}),
     loadMapRaw: ref(function (data) {}),
     loadLaserScan: ref(function (data) {}),
-    scanPose: ref([])
+    loadPath: ref(function (data) {})
   }
 
   let alive = true
@@ -87,8 +90,9 @@ export default function RosClient () {
     }
   }
 
-  const mapTopic = useControlParams().mapTopic
-  const laserScanTopic = useControlParams().laserScanTopic
+  const mapTopic = controlParams.mapTopic
+  const laserScanTopic = visualization.laserScanTopic
+  const pathTopic = visualization.pathTopic
 
   function processTopic (rosObject) {
     switch (rosObject.topic) {
@@ -96,8 +100,8 @@ export default function RosClient () {
       case '/map_metadata': rosClient.loadMapData.value(rosObject.msg); break
       case mapTopic: rosClient.loadMapRaw.value(rosObject.msg); break
       case laserScanTopic: rosClient.loadLaserScan.value(rosObject.msg); break
+      case pathTopic: rosClient.loadPath.value(rosObject.msg); break
       case '/map_state': mapState.value = rosObject.msg.data; break
-      case '/scan_simplified': rosClient.scanPose.value = rosObject.msg.polygon !== undefined ? rosObject.msg.polygon.points !== undefined ? rosObject.msg.polygon.points : [] : []; break
     }
   }
 

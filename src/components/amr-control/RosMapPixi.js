@@ -281,6 +281,31 @@ export default function () {
     }
   }
 
+  mapRender.processPath = (data) => {
+    if (data.poses.length < 2) {
+      mapRender.clearPath()
+      return
+    }
+    const path = new PIXI.Graphics()
+    path.lineStyle(0.05, getCssVar('positive'))
+    path.moveTo(data.poses[0].pose.position.x, -data.poses[0].pose.position.y)
+    data.poses.forEach(p => {
+      path.lineTo(p.pose.position.x, -p.pose.position.y)
+    })
+    if (mapRender.path) {
+      mapRender.app.stage.removeChild(mapRender.path)
+    }
+    mapRender.app.stage.addChild(path)
+    mapRender.path = path
+  }
+
+  mapRender.clearPath = () => {
+    if (mapRender.path) {
+      mapRender.app.stage.removeChild(mapRender.path)
+      mapRender.path = null
+    }
+  }
+
   /**
    * 渲染Canvas中需要渲染的元素
    */

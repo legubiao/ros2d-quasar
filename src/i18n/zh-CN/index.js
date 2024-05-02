@@ -26,6 +26,8 @@ export default {
   setting_arrow_size: '机器人箭头大小',
   setting_checkMapState: '检查地图状态',
   setting_linear_limit: '线速度上限',
+  setting_path: '显示路径规划',
+  setting_path_topic: '路径规划 Topic',
 
   amr2d_navigation_relocate: '导航与重定位',
   amr2d_focus: '视角跟随机器人',
