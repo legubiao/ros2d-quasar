@@ -4,6 +4,8 @@ export const useVisualization = defineStore('visualization', {
   state: () => ({
     pathEnable: true,
     pathTopic: '/move_base/NavfnROS/plan',
+    trajectoryEnable: false,
+    trajectoryTopic: '/robot_path',
     laserScanEnable: false,
     laserScanTopic: '/scan'
   }),
@@ -16,6 +18,8 @@ export const useVisualization = defineStore('visualization', {
         paths: [
           'pathEnable',
           'pathTopic',
+          'trajectoryEnable',
+          'trajectoryTopic',
           'laserScanEnable',
           'laserScanTopic'
         ]

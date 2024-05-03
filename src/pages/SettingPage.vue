@@ -53,7 +53,7 @@ watch(locale, value => {
         </q-expansion-item>
         <q-expansion-item>
           <template v-slot:header>
-            <q-toggle v-model="visualizations.pathEnable" icon="wifi_tethering"/>
+            <q-toggle v-model="visualizations.pathEnable" icon="route"/>
             <q-item-section>
               {{ $t('setting_path') }}
             </q-item-section>
@@ -61,6 +61,18 @@ watch(locale, value => {
           <q-separator />
           <q-card-section>
             <q-input v-model="visualizations.pathTopic" :label="$t('setting_path_topic')" outlined/>
+          </q-card-section>
+        </q-expansion-item>
+        <q-expansion-item>
+          <template v-slot:header>
+            <q-toggle v-model="visualizations.trajectoryEnable" icon="timeline" color="secondary"/>
+            <q-item-section>
+              {{ $t('setting_trajectory') }}
+            </q-item-section>
+          </template>
+          <q-separator />
+          <q-card-section>
+            <q-input v-model="visualizations.trajectoryTopic" :label="$t('setting_trajectory_topic')" outlined/>
           </q-card-section>
         </q-expansion-item>
       </q-list>

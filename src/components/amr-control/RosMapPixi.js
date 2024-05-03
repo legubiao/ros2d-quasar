@@ -299,10 +299,35 @@ export default function () {
     mapRender.path = path
   }
 
+  mapRender.processTrajectory = (data) => {
+    if (data.poses.length < 2) {
+      mapRender.clearPath()
+      return
+    }
+    const trajectory = new PIXI.Graphics()
+    trajectory.lineStyle(0.05, getCssVar('secondary'))
+    trajectory.moveTo(data.poses[0].pose.position.x, -data.poses[0].pose.position.y)
+    data.poses.forEach(p => {
+      trajectory.lineTo(p.pose.position.x, -p.pose.position.y)
+    })
+    if (mapRender.trajectory) {
+      mapRender.app.stage.removeChild(mapRender.trajectory)
+    }
+    mapRender.app.stage.addChild(trajectory)
+    mapRender.trajectory = trajectory
+  }
+
   mapRender.clearPath = () => {
     if (mapRender.path) {
       mapRender.app.stage.removeChild(mapRender.path)
       mapRender.path = null
+    }
+  }
+
+  mapRender.clearTrajectory = () => {
+    if (mapRender.trajectory) {
+      mapRender.app.stage.removeChild(mapRender.trajectory)
+      mapRender.trajectory = null
     }
   }
 

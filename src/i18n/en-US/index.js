@@ -26,8 +26,10 @@ export default {
   setting_arrow_size: 'Robot Arrow Size',
   setting_checkMapState: 'Check Map State',
   setting_linear_limit: 'Linear Speed Limit',
-  setting_path: 'Visualize Path',
-  setting_path_topic: 'Path Topic',
+  setting_path: 'Visualize Planning Path',
+  setting_path_topic: 'Planning Path Topic',
+  setting_trajectory: 'Visualize Trajectory',
+  setting_trajectory_topic: 'Trajectory Topic',
 
   amr2d_navigation_relocate: 'Navigation & Relocate',
   amr2d_focus: 'Focus on AMR',

@@ -17,7 +17,8 @@ export default function RosClient () {
     loadMapData: ref(function (data) {}),
     loadMapRaw: ref(function (data) {}),
     loadLaserScan: ref(function (data) {}),
-    loadPath: ref(function (data) {})
+    loadPath: ref(function (data) {}),
+    loadTrajectory: ref(function (data) {})
   }
 
   let alive = true
@@ -93,6 +94,7 @@ export default function RosClient () {
   const mapTopic = controlParams.mapTopic
   const laserScanTopic = visualization.laserScanTopic
   const pathTopic = visualization.pathTopic
+  const trajectoryTopic = visualization.trajectoryTopic
 
   function processTopic (rosObject) {
     switch (rosObject.topic) {
@@ -101,6 +103,7 @@ export default function RosClient () {
       case mapTopic: rosClient.loadMapRaw.value(rosObject.msg); break
       case laserScanTopic: rosClient.loadLaserScan.value(rosObject.msg); break
       case pathTopic: rosClient.loadPath.value(rosObject.msg); break
+      case trajectoryTopic: rosClient.loadTrajectory.value(rosObject.msg); break
       case '/map_state': mapState.value = rosObject.msg.data; break
     }
   }
