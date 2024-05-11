@@ -1,8 +1,10 @@
 <script setup>
 import { computed, inject, ref, watch } from 'vue'
+import { useControlParams } from 'stores/control-params'
 
 const robotPose = inject('robotPose')
 
+const controlParam = useControlParams()
 const pageMode = inject('pageMode')
 const visible = computed(() => (pageMode.value === 'navigation'))
 const clicked = ref(false)
@@ -12,6 +14,7 @@ watch(visible, value => {
 })
 
 const mapManager = inject('mapManager')
+const rosClient = inject('rosClient')
 
 // 重定位置
 mapManager.changePose = (pos) => {
@@ -52,7 +55,7 @@ watch(isLocation, value => {
 const isNavigate = ref(false)
 
 const poseWithCovarianceStamped = ref({
-  header: { seq: 0, stamp: 0, frame_id: 'map' },
+  header: {},
   pose: {
     pose: {
       position: { x: 0, y: 0, z: 0 },
@@ -80,13 +83,24 @@ function close () {
 
   if (clicked.value) {
     if (isNavigate.value) {
-      publish('/move_base_simple/goal', {
-        header: { seq: 0, stamp: 0, frame_id: 'map' },
-        pose: tempPose.value
-      })
+      if (controlParam.rosVersion === 'v1') {
+        rosClient.publish('/move_base_simple/goal', {
+          header: { seq: 0, stamp: 0, frame_id: 'map' },
+          pose: tempPose.value
+        })
+      } else {
+        rosClient.publish('/goal_pose', {
+          header: { stamp: { sec: 0, nanosec: 0 }, frame_id: 'map' },
+          pose: tempPose.value
+        })
+      }
     } else {
-      poseWithCovarianceStamped.value.header.seq++
       poseWithCovarianceStamped.value.pose.pose = tempPose.value
+      if (controlParam.rosVersion === 'v2') {
+        poseWithCovarianceStamped.value.header = { stamp: { sec: 0, nanosec: 0 }, frame_id: 'map' }
+      } else {
+        poseWithCovarianceStamped.value.header = { seq: 0, stamp: 0, frame_id: 'map' }
+      }
       publish('/initialpose', poseWithCovarianceStamped.value)
     }
   }

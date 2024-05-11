@@ -18,6 +18,7 @@ export default {
   router_joystick_description: '可以通过虚拟手柄遥控机器人',
 
   setting_amr_ip: '机器人IP',
+  setting_ros_version: 'ROS版本',
   setting_language: '显示语言',
   setting_topic_speed: '速度指令 Topic',
   setting_topic_map: '地图 Topic',

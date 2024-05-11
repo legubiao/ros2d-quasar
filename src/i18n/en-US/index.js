@@ -18,6 +18,7 @@ export default {
   router_joystick_description: 'A simply page for Virtual Joystick',
 
   setting_amr_ip: 'AMR IP',
+  setting_ros_version: 'ROS Version',
   setting_language: 'Display Language',
   setting_topic_speed: 'CMD_VEL Topic',
   setting_topic_map: 'Map Topic',

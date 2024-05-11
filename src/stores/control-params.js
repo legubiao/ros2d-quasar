@@ -12,6 +12,7 @@ export const useControlParams = defineStore('counter', {
     ip: 'localhost',
     cmdTopic: '/cmd_vel',
     mapTopic: '/map',
+    rosVersion: 'v1',
 
     requireMapState: true,
     arrowScale: 1,
@@ -43,6 +44,7 @@ export const useControlParams = defineStore('counter', {
           'moveMode',
           'cmdTopic',
           'mapTopic',
+          'rosVersion',
           'arrowScale',
           'poseSize'
         ]

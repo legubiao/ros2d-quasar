@@ -12,6 +12,11 @@ const localeOptions = [
   { value: 'zh-CN', label: '中文' }
 ]
 
+const rosOptions = [
+  { value: 'v1', label: 'ROS Noetic' },
+  { value: 'v2', label: 'ROS2 Humble' }
+]
+
 watch(locale, value => {
   controlParam.locale = value
 })
@@ -31,6 +36,14 @@ watch(locale, value => {
         v-model="locale"
         :options="localeOptions"
         :label="$t('setting_language')"
+        outlined
+        emit-value
+        map-options
+      />
+
+      <q-select v-model="controlParam.rosVersion"
+        :options="rosOptions"
+        :label="$t('setting_ros_version')"
         outlined
         emit-value
         map-options
