@@ -39,6 +39,8 @@ export default {
   amr2d_navigation: 'Set Nav Goal',
   amr2d_setPosition: 'Set Position',
   amr2d_setDirection: 'Set Direction',
+  amr2d_stop_process: 'Stop Process',
+  amr2d_stop_process_description: 'Are you sure to stop the SLAM or Navigation process?',
   amr2d_createMap: 'Create Map',
   amr2d_saveMap: 'Save Map',
   amr2d_saveMap_description: 'Please enter map\'s name',

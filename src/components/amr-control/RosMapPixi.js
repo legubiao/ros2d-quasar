@@ -305,7 +305,7 @@ export default function () {
       return
     }
     const trajectory = new PIXI.Graphics()
-    trajectory.lineStyle(0.05, getCssVar('secondary'))
+    trajectory.lineStyle(0.05, getCssVar('info'), 0.3)
     trajectory.moveTo(data.poses[0].pose.position.x, -data.poses[0].pose.position.y)
     data.poses.forEach(p => {
       trajectory.lineTo(p.pose.position.x, -p.pose.position.y)

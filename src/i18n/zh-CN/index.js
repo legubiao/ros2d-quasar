@@ -39,6 +39,8 @@ export default {
   amr2d_navigation: '设定导航目标',
   amr2d_setPosition: '选定位置',
   amr2d_setDirection: '选定方向',
+  amr2d_stop_process: '停止进程',
+  amr2d_stop_process_description: '确定要停止SLAM或导航进程吗?',
   amr2d_createMap: '创建地图',
   amr2d_saveMap: '保存地图',
   amr2d_saveMap_description: '请输入地图的名字',
