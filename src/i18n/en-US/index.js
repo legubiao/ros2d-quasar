@@ -34,6 +34,7 @@ export default {
 
   amr2d_navigation_relocate: 'Navigation & Relocate',
   amr2d_focus: 'Focus on AMR',
+  amr2d_wait: 'Please wait for processing...',
   amr2d_no_focus: 'Cancel Focus',
   amr2d_relocate: '2D Pose Estimation',
   amr2d_navigation: 'Set Nav Goal',

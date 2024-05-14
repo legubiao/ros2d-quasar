@@ -28,22 +28,9 @@ function saveMap () {
     mapCommand('save ' + data)
   })
 }
-
-function stopProcess () {
-  $q.dialog({
-    title: t('amr2d_stop_process'),
-    message: t('amr2d_stop_process_description'),
-    cancel: { label: t('cancel'), flat: true, color: 'secondary' },
-    ok: { label: t('ok'), flat: true, color: 'primary', class: 'text-bold' },
-    persistent: true
-  }).onOk(() => {
-    mapCommand('stop')
-  })
-}
 </script>
 
 <template>
-  <q-btn no-wrap key="mapping" v-if="mapState !== 'mapping'" rounded :label="$t('amr2d_createMap')" color="secondary" icon="explore" @click="mapCommand('start')"/>
-  <q-btn v-else no-wrap key="save-map" rounded :label="$t('amr2d_saveMap')" color="secondary" icon="save" @click="saveMap"/>
-  <q-btn v-if="mapState !== 'idle'" no-wrap key="stop-process" rounded :label="$t('amr2d_stop_process')" color="warning" icon="stop" @click="stopProcess"/>
+  <q-btn no-wrap key="mapping" v-if="mapState === 'idle'" rounded :label="$t('amr2d_createMap')" color="secondary" icon="explore" @click="mapCommand('start')"/>
+  <q-btn no-wrap key="save-map" v-else-if="mapState === 'mapping'" rounded :label="$t('amr2d_saveMap')" color="secondary" icon="save" @click="saveMap"/>
 </template>

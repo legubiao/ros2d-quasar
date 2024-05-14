@@ -104,7 +104,7 @@ export default function RosClient () {
       case laserScanTopic: rosClient.loadLaserScan.value(rosObject.msg); break
       case pathTopic: rosClient.loadPath.value(rosObject.msg); break
       case trajectoryTopic: rosClient.loadTrajectory.value(rosObject.msg); break
-      case '/map_state': mapState.value = rosObject.msg.data; break
+      case '/map_state': rosClient.mapState.value = rosObject.msg.data; break
     }
   }
 
@@ -151,8 +151,8 @@ export default function RosClient () {
   }
   rosClient.init = createWs
 
-  const mapState = ref('idle')
-  provide('mapState', mapState)
+  rosClient.mapState = ref('idle')
+  provide('mapState', rosClient.mapState)
   provide('robotPose', rosClient.robotPose)
   provide('subscribe', rosClient.subscribe)
   provide('unsubscribe', rosClient.unsubscribe)

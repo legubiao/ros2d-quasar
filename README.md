@@ -18,11 +18,9 @@ Ros2d-quasar基于[Quasar Framework](https://quasar.dev/)开发，因此可以�
 
 与ROS的连接使用的是原生WebSocket，没有使用[roslibjs](https://github.com/RobotWebTools/roslibjs)
 
-如果想体验这个程序，可以使用[legubiao/amr_platform](https://github.com/legubiao/amr_platform)来使用Turtlebot启动仿真
 
 
-
-## 启动项目
+## 1. 启动项目
 
 启动项目之前，请确保已安装LTS版本（双数版本号）的[Node.js](https://nodejs.org/en)和[Yarn](https://classic.yarnpkg.com/lang/en/docs/install)。如果已经安装好了nodejs，可以通过以下的指令安装yarn
 
@@ -42,12 +40,17 @@ yarn
 quasar dev
 ```
 
+如果需要更新项目使用的quasar框架版本，可以使用以下指令：
+
+```bash
+yarn upgrade quasar
+```
+
+如果需要启动一个ROS仿真程序来进一步体验，可以参考：[legubiao/AMR-Remote-Control-Toolkit: A rospkg enable launch mapping through topic command and provide support for quasar-ros2d (github.com)](https://github.com/legubiao/AMR-Remote-Control-Toolkit)
 
 
-## 连接机器人
 
-## 构建项目并打包为Docker镜像
-也可以直接通过[DockerHub](https://hub.docker.com/repository/docker/legubiao/ros2d-quasar/general)下载使用
+## 2. 编译Docker镜像
 
 构建项目
 ```bash
@@ -58,3 +61,8 @@ quasar build
 ```bash
 docker build -t ros2d-quasar .
 ```
+
+已经配置Github Actions自动打包，也可以直接通过[DockerHub](https://hub.docker.com/repository/docker/legubiao/ros2d-quasar/general)下载使用镜像
+
+
+

@@ -34,6 +34,7 @@ export default {
 
   amr2d_navigation_relocate: '导航与重定位',
   amr2d_focus: '视角跟随机器人',
+  amr2d_wait: '请等待后台程序处理...',
   amr2d_no_focus: '取消视角跟随',
   amr2d_relocate: '重定位机器人',
   amr2d_navigation: '设定导航目标',
