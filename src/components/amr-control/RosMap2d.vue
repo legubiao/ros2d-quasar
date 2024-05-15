@@ -25,6 +25,7 @@ watch(connected, value => {
     if (visualization.pathEnable) rosClient.subscribe(visualization.pathTopic)
     if (visualization.laserScanEnable) rosClient.subscribe(visualization.laserScanTopic)
     if (visualization.trajectoryEnable) rosClient.subscribe(visualization.trajectoryTopic)
+    if (visualization.costMapEnable) rosClient.subscribe(visualization.costMapTopic)
   }
 })
 
@@ -38,6 +39,7 @@ onMounted(() => {
   if (visualization.laserScanEnable) rosClient.loadLaserScan.value = mapManager.processLaserScan
   if (visualization.pathEnable) rosClient.loadPath.value = mapManager.processPath
   if (visualization.trajectoryEnable) rosClient.loadTrajectory.value = mapManager.processTrajectory
+  if (visualization.costMapTopic) rosClient.loadCostMap.value = mapManager.processCostMap
 })
 
 const robotPose = inject('robotPose')

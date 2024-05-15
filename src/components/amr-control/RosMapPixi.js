@@ -49,6 +49,7 @@ export default function () {
           mapRender.focus()
         }
       }
+      mapRender.removeTarget()
     }
   }
 
@@ -272,13 +273,15 @@ export default function () {
       laserScan.addChild(point)
     })
 
-    if (mapRender.robot) {
-      if (mapRender.robot.children.length > 1) {
-        mapRender.robot.removeChildAt(1)
-      }
-      laserScan.rotation = -90 * Math.PI / 180
-      mapRender.robot.addChildAt(laserScan, 1)
+    laserScan.position.x = mapRender.robot.x
+    laserScan.position.y = mapRender.robot.y
+    laserScan.rotation = mapRender.robot.rotation - Math.PI / 2
+
+    if (mapRender.laserScan) {
+      mapRender.app.stage.removeChild(mapRender.laserScan)
     }
+    mapRender.app.stage.addChild(laserScan)
+    mapRender.laserScan = laserScan
   }
 
   mapRender.processPath = (data) => {
@@ -328,6 +331,46 @@ export default function () {
     if (mapRender.trajectory) {
       mapRender.app.stage.removeChild(mapRender.trajectory)
       mapRender.trajectory = null
+    }
+  }
+
+  mapRender.processCostMap = (data) => {
+    const texture = PIXI.Texture.fromBuffer(
+      new Uint8Array(data.data.map(x => {
+        switch (x) {
+          case -1: return [0, 0, 0, 0]
+          default: {
+            const grayScale = (100 - x) / 100 * 255
+            return [grayScale, grayScale, grayScale, 200]
+          }
+        }
+      }).flat()),
+      data.info.width,
+      data.info.height
+    )
+
+    const costMap = new PIXI.Sprite(texture)
+
+    costMap.scale.set(data.info.resolution)
+    costMap.anchor.y = 1
+    costMap.scale.set(costMap.scale.x, -costMap.scale.y)
+
+    costMap.x += mapRender.robot.x - costMap.width / 2
+    costMap.y += mapRender.robot.y - costMap.height / 2
+
+    if (mapRender.costMap) {
+      mapRender.app.stage.removeChild(mapRender.costMap)
+    }
+    mapRender.app.stage.addChildAt(costMap, 1)
+    mapRender.costMap = costMap
+
+    PIXI.utils.clearTextureCache()
+  }
+
+  mapRender.clearCostMap = () => {
+    if (mapRender.costMap) {
+      mapRender.app.stage.removeChild(mapRender.costMap)
+      mapRender.costMap = null
     }
   }
 

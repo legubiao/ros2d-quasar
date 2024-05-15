@@ -18,7 +18,6 @@ const rosClient = inject('rosClient')
 
 // 重定位置
 mapManager.changePose = (pos) => {
-  console.log(tempPose.value)
   tempPose.value.position.x = pos.x
   tempPose.value.position.y = pos.y
   if (isNavigate.value) {

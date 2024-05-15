@@ -7,7 +7,9 @@ export const useVisualization = defineStore('visualization', {
     trajectoryEnable: false,
     trajectoryTopic: '/robot_path',
     laserScanEnable: false,
-    laserScanTopic: '/scan'
+    laserScanTopic: '/scan',
+    costMapEnable: false,
+    costMapTopic: '/local_costmap/costmap'
   }),
   persist: {
     enabled: true,
@@ -21,7 +23,9 @@ export const useVisualization = defineStore('visualization', {
           'trajectoryEnable',
           'trajectoryTopic',
           'laserScanEnable',
-          'laserScanTopic'
+          'laserScanTopic',
+          'costMapEnable',
+          'costMapTopic'
         ]
       }
     ]

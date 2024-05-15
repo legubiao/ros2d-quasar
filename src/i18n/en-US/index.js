@@ -29,8 +29,10 @@ export default {
   setting_linear_limit: 'Linear Speed Limit',
   setting_path: 'Visualize Planning Path',
   setting_path_topic: 'Planning Path Topic',
-  setting_trajectory: 'Visualize Trajectory',
+  setting_trajectory: 'Visualize Visited Trajectory',
   setting_trajectory_topic: 'Trajectory Topic',
+  setting_costmap: 'Visualize Costmap',
+  setting_costmap_topic: 'Costmap Topic',
 
   amr2d_navigation_relocate: 'Navigation & Relocate',
   amr2d_focus: 'Focus on AMR',

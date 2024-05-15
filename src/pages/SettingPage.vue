@@ -88,6 +88,18 @@ watch(locale, value => {
             <q-input v-model="visualizations.trajectoryTopic" :label="$t('setting_trajectory_topic')" outlined/>
           </q-card-section>
         </q-expansion-item>
+        <q-expansion-item>
+          <template v-slot:header>
+            <q-toggle v-model="visualizations.costMapEnable" icon="map" color="secondary"/>
+            <q-item-section>
+              {{ $t('setting_costmap') }}
+            </q-item-section>
+          </template>
+          <q-separator />
+          <q-card-section>
+            <q-input v-model="visualizations.costMapTopic" :label="$t('setting_costmap_topic')" outlined/>
+          </q-card-section>
+        </q-expansion-item>
       </q-list>
     </div>
   </q-scroll-area>

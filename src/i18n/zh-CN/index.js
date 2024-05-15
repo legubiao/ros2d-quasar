@@ -29,8 +29,10 @@ export default {
   setting_linear_limit: '线速度上限',
   setting_path: '显示路径规划',
   setting_path_topic: '路径规划 Topic',
-  setting_trajectory: '显示轨迹',
-  setting_trajectory_topic: '轨迹 Topic',
+  setting_trajectory: '显示已行驶轨迹',
+  setting_trajectory_topic: '行驶轨迹 Topic',
+  setting_costmap: '显示代价地图',
+  setting_costmap_topic: '代价地图 Topic',
 
   amr2d_navigation_relocate: '导航与重定位',
   amr2d_focus: '视角跟随机器人',
