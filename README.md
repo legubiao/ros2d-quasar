@@ -62,6 +62,20 @@ quasar build
 docker build -t ros2d-quasar .
 ```
 
+## 3.docker 运行
+
+pull 镜像
+```bash
+docker pull legubiao/ros2d-quasar
+```
+
+运行容器
+```bash
+docker run -d --name=ros2d-quasar --restart=always -p 80:80 legubiao/ros2d-quasar:latest
+```
+
+
+
 已经配置Github Actions自动打包，也可以直接通过[DockerHub](https://hub.docker.com/repository/docker/legubiao/ros2d-quasar/general)下载使用镜像
 
 
