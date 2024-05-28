@@ -40,6 +40,7 @@ export default {
   amr2d_no_focus: 'Cancel Focus',
   amr2d_relocate: '2D Pose Estimation',
   amr2d_navigation: 'Set Nav Goal',
+  amr2d_drawPath: 'Draw Nav Path',
   amr2d_setPosition: 'Set Position',
   amr2d_setDirection: 'Set Direction',
   amr2d_stop_process: 'Stop Process',

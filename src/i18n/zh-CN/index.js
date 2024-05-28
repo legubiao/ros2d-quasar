@@ -40,6 +40,7 @@ export default {
   amr2d_no_focus: '取消视角跟随',
   amr2d_relocate: '重定位机器人',
   amr2d_navigation: '设定导航目标',
+  amr2d_drawPath: '绘制导航路径',
   amr2d_setPosition: '选定位置',
   amr2d_setDirection: '选定方向',
   amr2d_stop_process: '停止进程',

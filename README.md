@@ -2,7 +2,7 @@
 
 Ros2d-quasar是一个基于vue3开发的ROS前端程序，可以实现通过Web来操作移动机器人。目前，Ros2d-quasar包括的主要特性包括：
 
-- 通过RosBridge-Websocket(ROS1-Noetic)，和机器人建立连接
+- 通过RosBridge-Websocket(ROS1-Noetic & ROS2-Humble)，和机器人建立连接
 - 使用虚拟手柄遥控机器人
 - 实时查看机器人当前所在的位置和地图
 - 开启机器人的建图或导航程序

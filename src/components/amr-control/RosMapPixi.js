@@ -152,6 +152,8 @@ export default function () {
         mapRender.changePose(mapRender.globalToRos(event.x, event.y))
       } else if (mapRender.changeDirection) {
         mapRender.changeTheta(mapRender.globalToRos(event.x, event.y))
+      } else if (mapRender.drawPath) {
+        mapRender.drawPathInit()
       } else {
         mapRender.dragging = true
         mapRender.lastPosition = {
@@ -163,6 +165,10 @@ export default function () {
 
     // 当鼠标移动时，如果处于拖动状态，则移动画布
     app.view.addEventListener('pointermove', event => {
+      if (mapRender.drawing) {
+        mapRender.drawPathUpdate(mapRender.globalToRos(event.x, event.y))
+        return
+      }
       if (!mapRender.dragging || mapRender.focusing) return
       const { x, y } = event
       app.stage.x += x - mapRender.lastPosition.x
@@ -172,6 +178,7 @@ export default function () {
 
     app.view.addEventListener('pointerup', function () {
       mapRender.dragging = false
+      mapRender.drawing = false
     })
 
     app.view.addEventListener('touchstart', event => {
@@ -334,6 +341,33 @@ export default function () {
     }
   }
 
+  mapRender.drawPathInit = () => {
+    mapRender.drawPathEnd()
+    mapRender.removeTarget()
+    mapRender.drawing = true
+  }
+
+  mapRender.drawPathUpdate = (pose) => {
+    if (mapRender.drawedPath) {
+      const length = mapRender.drawedPathData.length
+      mapRender.drawedPath.moveTo(mapRender.drawedPathData[length - 1].x, -mapRender.drawedPathData[length - 1].y)
+      mapRender.drawedPath.lineTo(pose.x, -pose.y)
+    } else {
+      const line = new PIXI.Graphics()
+      line.lineStyle(0.05, getCssVar('accent')) // 设置线的样式
+      line.moveTo(pose.x, -pose.y)
+      mapRender.drawedPath = line
+      mapRender.app.stage.addChild(mapRender.drawedPath)
+      mapRender.drawedPathData = []
+    }
+    mapRender.drawedPathData.push(pose)
+  }
+
+  mapRender.drawPathEnd = () => {
+    mapRender.app.stage.removeChild(mapRender.drawedPath)
+    mapRender.drawedPath = null
+  }
+
   mapRender.processCostMap = (data) => {
     const texture = PIXI.Texture.fromBuffer(
       new Uint8Array(data.data.map(x => {
@@ -355,16 +389,18 @@ export default function () {
     costMap.anchor.y = 1
     costMap.scale.set(costMap.scale.x, -costMap.scale.y)
 
-    costMap.x += mapRender.robot.x - costMap.width / 2
-    costMap.y += mapRender.robot.y - costMap.height / 2
+    if (mapRender.robot) {
+      costMap.x += mapRender.robot.x - costMap.width / 2
+      costMap.y += mapRender.robot.y - costMap.height / 2
 
-    if (mapRender.costMap) {
-      mapRender.app.stage.removeChild(mapRender.costMap)
+      if (mapRender.costMap) {
+        mapRender.app.stage.removeChild(mapRender.costMap)
+      }
+      mapRender.app.stage.addChildAt(costMap, 1)
+      mapRender.costMap = costMap
+
+      PIXI.utils.clearTextureCache()
     }
-    mapRender.app.stage.addChildAt(costMap, 1)
-    mapRender.costMap = costMap
-
-    PIXI.utils.clearTextureCache()
   }
 
   mapRender.clearCostMap = () => {

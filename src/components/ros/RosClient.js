@@ -123,7 +123,8 @@ export default function RosClient () {
 
   rosClient.subscribe = (topic) => { wsSend({ op: 'subscribe', topic }) }
   rosClient.unsubscribe = (topic) => { wsSend({ op: 'unsubscribe', topic }) }
-  rosClient.publish = (topic, msg) => { wsSend({ op: 'publish', topic, msg }) }
+  rosClient.publish = (topic, msg, type) => { wsSend({ op: 'publish', topic, msg, type }) }
+  rosClient.advertise = (topic, type) => { wsSend({ op: 'advertise', topic, type }) }
   rosClient.wsSend = wsSend
 
   const serviceRsMap = new Map()
