@@ -12,7 +12,8 @@
         :min="min"
         :max="max"
         :model-value="modelValue"
-        @update:model-value="updateValue"/>
+        @update:model-value="updateValue"
+        @change="changed"/>
     </q-item-section>
   </q-item>
 </template>
@@ -32,8 +33,12 @@ export default {
     function updateValue (value) {
       context.emit('update:modelValue', value)
     }
+    function changed (value) {
+      context.emit('changed', value)
+    }
     return {
-      updateValue
+      updateValue,
+      changed
     }
   }
 }

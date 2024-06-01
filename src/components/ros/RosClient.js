@@ -147,6 +147,16 @@ export default function RosClient () {
     return result
   }
 
+  rosClient.getParams = async (nodeName, params) => {
+    const args = [params]
+    const res = await rosClient.call(nodeName + '/get_parameters', args)
+    return res.values
+  }
+
+  rosClient.setParam = async (nodeName, key, value) => {
+    return rosClient.call('/rosapi/set_param', [nodeName + ':' + key, value + ''])
+  }
+
   rosClient.close = () => {
     Notify.create({ type: 'info', message: t('notify_ros_release') })
     alive = false

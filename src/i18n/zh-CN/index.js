@@ -16,6 +16,8 @@ export default {
   router_service_description: '测试对于ROS服务的调用',
   router_joystick: '虚拟手柄',
   router_joystick_description: '可以通过虚拟手柄遥控机器人',
+  router_param: 'ROS参数',
+  router_param_description: '动态修改ROS参数',
 
   setting_amr_ip: '机器人IP',
   setting_ros_version: 'ROS版本',

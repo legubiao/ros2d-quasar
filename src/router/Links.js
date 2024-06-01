@@ -22,5 +22,11 @@ const basicLinks = [
     caption: 'router_service_description',
     icon: 'settings_phone',
     link: 'service'
+  },
+  {
+    title: 'router_service',
+    caption: 'router_service_description',
+    icon: 'tune',
+    link: 'param'
   }
 ]
