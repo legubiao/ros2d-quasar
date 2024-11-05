@@ -7,14 +7,13 @@
           dense
           round
           icon="menu"
-          :aria-label="$t('menu')"
+          :aria-label="t('menu')"
           @click="toggleLeftDrawer"
         />
 
         <q-toolbar-title>
-          <label v-if="$route.name !== 'main'">{{ $t(('router_'+ $route.name))}}</label>
+          <label v-if="$route.name !== 'main'">{{ t(('router_' + $route.name)) }}</label>
         </q-toolbar-title>
-
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
@@ -28,7 +27,7 @@
         <q-item v-ripple>
           <q-item-section>
             <q-item-label header class="text-grey-8 text-h6" style="width: 8rem">
-              {{ $t('menu') }}
+              {{ t('menu') }}
             </q-item-label>
           </q-item-section>
           <q-item-section side>
@@ -69,31 +68,26 @@
   </q-layout>
 </template>
 
-<script>
-import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router'
-
-import RouterItem from 'layouts/RouterItem.vue'
+<script setup>
+import { ref } from 'vue'
 import Links from 'src/router/Links'
+import { useRoute, useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useQuasar } from 'quasar'
+import RouterItem from 'layouts/RouterItem.vue'
 
-export default defineComponent({
-  name: 'MainLayout',
-
-  components: {
-    RouterItem
-  },
-
-  setup () {
-    const leftDrawerOpen = ref(false)
-
-    return {
-      router: useRouter(),
-      basic: Links('basic'),
-      leftDrawerOpen,
-      toggleLeftDrawer () {
-        leftDrawerOpen.value = !leftDrawerOpen.value
-      }
-    }
-  }
+defineOptions({
+  name: 'MainLayout'
 })
+
+const leftDrawerOpen = ref(false)
+const router = useRouter()
+const { t } = useI18n()
+const $q = useQuasar()
+const $route = useRoute()
+const basic = Links('basic')
+
+function toggleLeftDrawer () {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
 </script>

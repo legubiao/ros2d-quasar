@@ -1,6 +1,7 @@
-import * as PIXI from 'pixi.js'
 import { getCssVar } from 'quasar'
 import { useControlParams } from 'stores/control-params'
+import { Application, Sprite, Container, Texture, Graphics, Assets } from 'pixi.js'
+import * as utils from '@pixi/utils'
 
 const controlParam = useControlParams()
 
@@ -9,26 +10,27 @@ export default function () {
     dragging: false,
     focusing: false,
     poseColor: '0xFF6666',
-    lastPosition: { x: 0, y: 0 },
-    poseContainer: new PIXI.Container()
+    lastPosition: {
+      x: 0,
+      y: 0
+    },
+    poseContainer: new Container()
   }
 
   /**
    * 在Canvas中渲染机器人的图标
    */
-  mapRender.createRobot = () => {
-    const robotImg = new Image()
-    robotImg.src = 'arrow.png'
-    robotImg.onload = function () {
-      const robot = PIXI.Sprite.from(robotImg)
-      robot.alpha = 1
-      robot.scale.set(controlParam.arrowScale / robotImg.width)
-      robot.anchor.set(0.5)
-      robot.tint = getCssVar('primary')
-      mapRender.robot = new PIXI.Container()
-      mapRender.robot.addChild(robot)
-      mapRender.updateStage()
-    }
+  mapRender.createRobot = async () => {
+    mapRender.robotTexture = await Assets.load('arrow.png')
+
+    const robot = new Sprite(mapRender.robotTexture)
+    robot.alpha = 1
+    robot.scale.set(controlParam.arrowScale / mapRender.robotTexture.width)
+    robot.anchor.set(0.5)
+    robot.tint = getCssVar('primary')
+    mapRender.robot = new Container()
+    mapRender.robot.addChild(robot)
+    mapRender.updateStage()
   }
 
   /**
@@ -59,20 +61,16 @@ export default function () {
       mapRender.target.y = -pose.position.y
       mapRender.target.rotation = (90 + mapRender.quaternionToTheta(pose.orientation)) * Math.PI / 180
     } else {
-      const targetImg = new Image()
-      targetImg.src = 'arrow.png'
-      targetImg.onload = function () {
-        const target = PIXI.Sprite.from(targetImg)
-        target.anchor.set(0.5)
-        target.alpha = 0.66
-        target.scale.set(controlParam.arrowScale / targetImg.width)
-        target.tint = getCssVar('positive')
-        target.x = pose.position.x
-        target.y = -pose.position.y
-        target.rotation = (90 + mapRender.quaternionToTheta(pose.orientation)) * Math.PI / 180
-        mapRender.target = target
-        mapRender.app.stage.addChild(mapRender.target)
-      }
+      const target = new Sprite(mapRender.robotTexture)
+      target.anchor.set(0.5)
+      target.alpha = 0.66
+      target.scale.set(controlParam.arrowScale / mapRender.robotTexture.width)
+      target.tint = getCssVar('positive')
+      target.x = pose.position.x
+      target.y = -pose.position.y
+      target.rotation = (90 + mapRender.quaternionToTheta(pose.orientation)) * Math.PI / 180
+      mapRender.target = target
+      mapRender.app.stage.addChild(mapRender.target)
     }
   }
 
@@ -81,33 +79,32 @@ export default function () {
     mapRender.target = null
   }
 
-  mapRender.loadPoseList = function (poseList) {
+  mapRender.loadPoseList = async function (poseList) {
     mapRender.poseContainer.removeChildren()
-    const poseImg = new Image()
-    poseImg.src = 'pose.png'
-    poseImg.onload = function () {
-      poseList.forEach(p => {
-        const pos = p.pose || p
-        const point = PIXI.Sprite.from(poseImg)
-        point.anchor.set(0.5)
-        point.alpha = 0.66
-        const scale = controlParam.arrowScale / poseImg.width
-        point.scale.set(scale)
-        point.tint = getCssVar('info')
 
-        point.x = pos.position.x
-        point.y = -pos.position.y
-        point.rotation = (90 + mapRender.quaternionToTheta(pos.orientation)) * Math.PI / 180
-        point.name = p.header.seq
+    mapRender.poseTexture = await Assets.load('pose.png')
 
-        mapRender.poseContainer.addChild(point)
-      })
-    }
+    poseList.forEach(p => {
+      const pos = p.pose || p
+      const point = new Sprite(mapRender.poseTexture)
+      point.anchor.set(0.5)
+      point.alpha = 0.66
+      const scale = controlParam.arrowScale / mapRender.poseTexture.width
+      point.scale.set(scale)
+      point.tint = getCssVar('info')
+
+      point.x = pos.position.x
+      point.y = -pos.position.y
+      point.rotation = (90 + mapRender.quaternionToTheta(pos.orientation)) * Math.PI / 180
+      point.label = p.header.seq
+
+      mapRender.poseContainer.addChild(point)
+    })
   }
 
   mapRender.changePoseColor = (seq) => {
     mapRender.poseContainer.children.forEach(point => {
-      if (point.name === seq) {
+      if (point.label === seq) {
         point.tint = getCssVar('positive')
       } else {
         point.tint = getCssVar('info')
@@ -128,26 +125,27 @@ export default function () {
    * 初始化地图
    * @param option 传入参数，需包含需要渲染的canvas
    */
-  mapRender.init = (option) => {
+  mapRender.init = async (option) => {
     mapRender.canvas = option.canvas
 
-    const app = new PIXI.Application({
+    const app = new Application()
+    await app.init({
+      background: getCssVar('info'),
       resizeTo: option.canvas,
-      backgroundColor: getCssVar('info'),
-      view: option.canvas
+      canvas: option.canvas
     })
 
     /*
     鼠标滚轮缩放
      */
-    app.view.addEventListener('wheel', event => {
+    app.canvas.addEventListener('wheel', event => {
       const scale = mapRender.app.stage.scale
       const delta = event.deltaY > 0 ? 0.9 : 1.1
       scale.set(scale.x * delta, scale.y * delta)
     })
 
     // 当鼠标按下时开始拖动
-    app.view.addEventListener('pointerdown', event => {
+    app.canvas.addEventListener('pointerdown', event => {
       if (mapRender.changeLocation) {
         mapRender.changePose(mapRender.globalToRos(event.x, event.y))
       } else if (mapRender.changeDirection) {
@@ -164,24 +162,30 @@ export default function () {
     })
 
     // 当鼠标移动时，如果处于拖动状态，则移动画布
-    app.view.addEventListener('pointermove', event => {
+    app.canvas.addEventListener('pointermove', event => {
       if (mapRender.drawing) {
         mapRender.drawPathUpdate(mapRender.globalToRos(event.x, event.y))
         return
       }
       if (!mapRender.dragging || mapRender.focusing) return
-      const { x, y } = event
+      const {
+        x,
+        y
+      } = event
       app.stage.x += x - mapRender.lastPosition.x
       app.stage.y += y - mapRender.lastPosition.y
-      mapRender.lastPosition = { x, y }
+      mapRender.lastPosition = {
+        x,
+        y
+      }
     })
 
-    app.view.addEventListener('pointerup', function () {
+    app.canvas.addEventListener('pointerup', function () {
       mapRender.dragging = false
       mapRender.drawing = false
     })
 
-    app.view.addEventListener('touchstart', event => {
+    app.canvas.addEventListener('touchstart', event => {
       if (event.touches.length === 2) {
         mapRender.dragging = false
         mapRender.initialDistance = Math.hypot(
@@ -192,7 +196,7 @@ export default function () {
       }
     })
 
-    app.view.addEventListener('touchmove', event => {
+    app.canvas.addEventListener('touchmove', event => {
       if (event.touches.length === 2 && mapRender.initialDistance) {
         mapRender.dragging = false
         const currentDistance = Math.hypot(
@@ -204,7 +208,7 @@ export default function () {
       }
     })
 
-    app.view.addEventListener('touchend', () => {
+    app.canvas.addEventListener('touchend', () => {
       mapRender.initialDistance = null
     })
 
@@ -224,21 +228,23 @@ export default function () {
    * @param data OccupancyGrid格式的地图
    */
   mapRender.processMapRaw = (data) => {
-    const texture = PIXI.Texture.fromBuffer(
-      new Uint8Array(data.data.map(x => {
-        switch (x) {
-          case -1: return [0, 0, 0, 10]
-          default: {
-            const grayScale = (100 - x) / 100 * 255
-            return [grayScale, grayScale, grayScale, 255]
-          }
+    const texturePixels = new Uint8Array(data.data.map(x => {
+      switch (x) {
+        case -1: return [0, 0, 0, 10]
+        default: {
+          const grayScale = (100 - x) / 100 * 255
+          return [grayScale, grayScale, grayScale, 255]
         }
-      }).flat()),
-      data.info.width,
-      data.info.height
-    )
+      }
+    }).flat())
 
-    const map = new PIXI.Sprite(texture)
+    const texture = Texture.from({
+      resource: texturePixels,
+      width: data.info.width,
+      height: data.info.height
+    })
+
+    const map = new Sprite(texture)
 
     map.scale.set(data.info.resolution)
     map.anchor.y = 1
@@ -258,23 +264,26 @@ export default function () {
       mapRender.createRobot()
     }
 
-    PIXI.utils.clearTextureCache()
+    utils.clearTextureCache()
   }
 
   mapRender.processLaserScan = (data) => {
-    // if (mapRender.lastLaserScan && (mapRender.lastLaserScan.header.stamp.secs === data.header.stamp.secs)) return
+    if (!mapRender.robot) {
+      console.log('no robot')
+      return
+    }
+
     // mapRender.lastLaserScan = data
-    const laserScan = new PIXI.Container()
+    const laserScan = new Container()
     data.ranges.forEach((range, i) => {
       const angle = data.angle_min + i * data.angle_increment
       const x = range * Math.cos(angle)
       const y = -range * Math.sin(angle)
 
       // 创建一个新的Graphics对象，用于绘制单个激光点
-      const point = new PIXI.Graphics()
-      point.beginFill(getCssVar('negative'))
-      point.drawCircle(x, y, 0.05) // 0.05是圆点的半径，你可以根据需要调整
-      point.endFill()
+      const point = new Graphics()
+      point.circle(x, y, 0.05) // 0.05是圆点的半径，你可以根据需要调整
+      point.fill(getCssVar('negative'))
 
       // 将激光点添加到laserScan中
       laserScan.addChild(point)
@@ -296,8 +305,11 @@ export default function () {
       mapRender.clearPath()
       return
     }
-    const path = new PIXI.Graphics()
-    path.lineStyle(0.05, getCssVar('positive'))
+    const path = new Graphics()
+    path.setStrokeStyle({
+      width: 0.05,
+      color: getCssVar('positive')
+    })
     path.moveTo(data.poses[0].pose.position.x, -data.poses[0].pose.position.y)
     data.poses.forEach(p => {
       path.lineTo(p.pose.position.x, -p.pose.position.y)
@@ -314,7 +326,7 @@ export default function () {
       mapRender.clearPath()
       return
     }
-    const trajectory = new PIXI.Graphics()
+    const trajectory = new Graphics()
     trajectory.lineStyle(0.05, getCssVar('info'), 0.3)
     trajectory.moveTo(data.poses[0].pose.position.x, -data.poses[0].pose.position.y)
     data.poses.forEach(p => {
@@ -353,8 +365,11 @@ export default function () {
       mapRender.drawedPath.moveTo(mapRender.drawedPathData[length - 1].x, -mapRender.drawedPathData[length - 1].y)
       mapRender.drawedPath.lineTo(pose.x, -pose.y)
     } else {
-      const line = new PIXI.Graphics()
-      line.lineStyle(0.05, getCssVar('accent')) // 设置线的样式
+      const line = new Graphics()
+      line.setStrokeStyle({
+        width: 0.05,
+        color: getCssVar('accent')
+      }) // 设置线的样式
       line.moveTo(pose.x, -pose.y)
       mapRender.drawedPath = line
       mapRender.app.stage.addChild(mapRender.drawedPath)
@@ -369,21 +384,24 @@ export default function () {
   }
 
   mapRender.processCostMap = (data) => {
-    const texture = PIXI.Texture.fromBuffer(
-      new Uint8Array(data.data.map(x => {
-        switch (x) {
-          case -1: return [0, 0, 0, 0]
-          default: {
-            const grayScale = (100 - x) / 100 * 255
-            return [grayScale, grayScale, grayScale, 200]
-          }
+    const texturePixels = new Uint8Array(data.data.map(x => {
+      switch (x) {
+        case -1:
+          return [0, 0, 0, 0]
+        default: {
+          const grayScale = (100 - x) / 100 * 255
+          return [grayScale, grayScale, grayScale, 200]
         }
-      }).flat()),
-      data.info.width,
-      data.info.height
-    )
+      }
+    }).flat())
 
-    const costMap = new PIXI.Sprite(texture)
+    const texture = Texture.from({
+      resource: texturePixels,
+      width: data.info.width,
+      height: data.info.height
+    })
+
+    const costMap = new Sprite(texture)
 
     costMap.scale.set(data.info.resolution)
     costMap.anchor.y = 1
@@ -398,8 +416,7 @@ export default function () {
       }
       mapRender.app.stage.addChildAt(costMap, 1)
       mapRender.costMap = costMap
-
-      PIXI.utils.clearTextureCache()
+      utils.clearTextureCache()
     }
   }
 
@@ -425,8 +442,8 @@ export default function () {
 
     mapRender.app.stage.removeChildren()
     mapRender.app.stage.addChild(mapRender.map)
-    mapRender.app.stage.addChild(mapRender.poseContainer || new PIXI.Container())
-    mapRender.app.stage.addChild(mapRender.robot || new PIXI.Container())
+    mapRender.app.stage.addChild(mapRender.poseContainer || new Container())
+    mapRender.app.stage.addChild(mapRender.robot || new Container())
   }
 
   /**
@@ -437,7 +454,10 @@ export default function () {
   mapRender.globalToRos = (x, y) => {
     const rosX = (x - mapRender.app.stage.x) / mapRender.app.stage.scale.x
     const rosY = (mapRender.app.stage.y - y + 50) / mapRender.app.stage.scale.y
-    return { x: rosX, y: rosY }
+    return {
+      x: rosX,
+      y: rosY
+    }
   }
 
   return mapRender
