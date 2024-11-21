@@ -15,7 +15,8 @@ const right = ref()
 const visible = ref(true)
 
 // Linear and Angular speed
-const linear = ref(0)
+const linearX = ref(0)
+const linearY = ref(0)
 const angular = ref(0)
 
 const controlParams = useControlParams()
@@ -28,13 +29,14 @@ function initJoyStick () {
     zone: left.value,
     mode: 'static', // mode: 'semi','dynamic'
     position: { left: '100px', bottom: '100px' },
-    lockY: true,
     color: getCssVar('negative'),
     size: 80
   }).on('start end', function () {
-    linear.value = 0
+    linearX.value = 0
+    linearY.value = 0
   }).on('move', function (evt, data) {
-    linear.value = data.vector.y * controlParams.linearRatio
+    linearX.value = data.vector.y * controlParams.linearRatio
+    linearY.value = -data.vector.x * controlParams.linearRatio
   })
 
   nipplejs.create({
@@ -64,17 +66,19 @@ const twist = ref({
  * @param x Linear Speed
  * @param z Angular Speed
  */
-function pubVel (x, z) {
+function pubVel (x, y, z) {
   if (!connected.value) return
-  if (x || z) {
+  if (x || y || z) {
     moving = true
     twist.value.linear.x = x
+    twist.value.linear.y = y
     twist.value.angular.z = z
     publish(controlParams.cmdTopic, twist.value)
   } else {
     if (moving) {
       moving = false
       twist.value.linear.x = x
+      twist.value.linear.y = y
       twist.value.angular.z = z
       publish(controlParams.cmdTopic, twist.value)
     }
@@ -85,15 +89,25 @@ function initKeyboardCtrl () {
   if (controlParams.keyboardMove) {
     document.onkeydown = (e) => {
       switch (e.code) {
+        case 'KeyW':
         case 'ArrowUp':
-          linear.value = controlParams.linearRatio
+          linearX.value = controlParams.linearRatio
           break
+        case 'KeyS':
         case 'ArrowDown':
-          linear.value = -controlParams.linearRatio
+          linearX.value = -controlParams.linearRatio
           break
+        case 'KeyA':
+          linearY.value = controlParams.linearRatio
+          break
+        case 'KeyD':
+          linearY.value = -controlParams.linearRatio
+          break
+        case 'KeyJ':
         case 'ArrowLeft':
           angular.value = controlParams.angularRatio
           break
+        case 'KeyL':
         case 'ArrowRight':
           angular.value = -controlParams.angularRatio
           break
@@ -101,10 +115,18 @@ function initKeyboardCtrl () {
     }
     document.onkeyup = (e) => {
       switch (e.code) {
+        case 'KeyW':
+        case 'KeyS':
         case 'ArrowDown':
         case 'ArrowUp':
-          linear.value = 0
+          linearX.value = 0
           break
+        case 'KeyA':
+        case 'KeyD':
+          linearY.value = 0
+          break
+        case 'KeyJ':
+        case 'KeyL':
         case 'ArrowLeft':
         case 'ArrowRight':
           angular.value = 0
@@ -121,7 +143,7 @@ function init () {
   initJoyStick()
   initKeyboardCtrl()
   timer = setInterval(() => {
-    pubVel(linear.value, angular.value)
+    pubVel(linearX.value, linearY.value, angular.value)
   }, controlParams.refreshInterval)
 }
 
